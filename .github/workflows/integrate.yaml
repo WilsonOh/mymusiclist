@@ -21,10 +21,6 @@ jobs:
         uses: borales/actions-yarn@v4
         with:
           cmd: install
-      - name: Format Code
-        uses: borales/actions-yarn@v4
-        with:
-          cmd: fmt
       - name: Lint Code
         uses: borales/actions-yarn@v4
         with:

@@ -9,7 +9,16 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint_d \"src/**/*.{js,jsx}\" --quiet",
-    "fmt": "prettier --write \"src/**/*.{js,jsx}\""
+    "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
+    "prepare": "husky install"
+  },
+  "lint-staged": {
+    "*.{js,jsx,tsx}": [
+      "eslint --quiet --cache --fix"
+    ],
+    "*.{json,js,ts,jsx,tsx,html}": [
+      "prettier --write"
+    ]
   },
   "dependencies": {
     "react": "^18.2.0",
@@ -27,6 +36,8 @@
     "eslint-plugin-react": "^7.31.11",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint_d": "^12.2.1",
+    "husky": "^8.0.2",
+    "lint-staged": "^13.1.0",
     "prettier": "^2.8.1",
     "react-select": "^5.7.0",
     "vite": "^4.0.0"
