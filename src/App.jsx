@@ -4,8 +4,8 @@ import Counter from "./assets/components/Counter";
 
 function App() {
   return (
-    <div className="App">
-      <div>
+	    <div className="App">
+			      <div>
         <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
           <img src="/vite.svg" className="logo" alt="Vite logo" />
         </a>
