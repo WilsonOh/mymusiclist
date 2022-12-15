@@ -10,6 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint_d \"src/**/*.{js,jsx}\" --quiet",
     "fmt": "prettier --write \"src/**/*.{js,jsx}\"",
+    "fmt:check": "prettier --check \"src/**/*.{js,jsx}\"",
     "prepare": "husky install"
   },
   "lint-staged": {
