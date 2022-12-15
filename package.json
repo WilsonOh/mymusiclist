@@ -3,10 +3,13 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
+  "author": "Wilson Oh <oh.wilson123@gmail.com>",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint_d \"src/**/*.{js,jsx}\" --quiet",
+    "fmt": "prettier --write \"src/**/*.{js,jsx}\""
   },
   "dependencies": {
     "react": "^18.2.0",
