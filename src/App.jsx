@@ -1,28 +1,12 @@
-import reactLogo from "./assets/react.svg";
 import "./App.css";
-import Counter from "./assets/components/Counter";
+import Counter from "./components/Counter";
+// import Navbar from "./components/Navbar";
 
 function App() {
   return (
     <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank" rel="noreferrer">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank" rel="noreferrer">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React HELLo</h1>
-      <div className="card">
-        <Counter start={100} />
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Counter start={100} />
+      {/* <Navbar /> */}
     </div>
   );
 }
