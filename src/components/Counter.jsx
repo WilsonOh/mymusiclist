@@ -42,7 +42,7 @@ const Counter = ({ start }) => {
               color: "green.500",
             }}
             loadingText="Decrement Count to -10..."
-            onClick={() => setCount((prev) => prev + 1)}
+            onClick={() => setCount(prev => prev + 1)}
           >
             Click Me to increase!
           </Button>
@@ -51,7 +51,7 @@ const Counter = ({ start }) => {
               borderColor: "red",
               color: "red.500",
             }}
-            onClick={() => setCount((prev) => (count <= -10 ? 0 : prev - 1))}
+            onClick={() => setCount(prev => (count <= -10 ? 0 : prev - 1))}
           >
             Click Me to decrease!
           </Button>

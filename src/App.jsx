@@ -1,11 +1,12 @@
 import "./App.css";
 // import Navbar from "./components/Navbar";
-import Counter from "./components/Counter.jsx";
+import About from "./components/About";
 
 function App() {
   return (
     <div className="App">
-      <Counter />
+      {/* <Counter /> */}
+      <About />
     </div>
   );
 }
