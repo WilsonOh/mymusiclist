@@ -1,12 +1,11 @@
 import "./App.css";
-import Counter from "./components/Counter";
 // import Navbar from "./components/Navbar";
+import Counter from "./components/Counter.jsx";
 
 function App() {
   return (
     <div className="App">
-      <Counter start={100} />
-      {/* <Navbar /> */}
+      <Counter />
     </div>
   );
 }
