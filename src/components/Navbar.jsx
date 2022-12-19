@@ -15,13 +15,16 @@ import {
   useBreakpointValue,
   useDisclosure,
   Input,
-  Spacer,
+  ButtonGroup,
+  InputGroup,
+  InputLeftElement,
 } from "@chakra-ui/react";
 import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
+  SearchIcon,
 } from "@chakra-ui/icons";
 
 export default function WithSubnavigation() {
@@ -54,14 +57,16 @@ export default function WithSubnavigation() {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Spacer />
+
         <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
           <Text
             textAlign={useBreakpointValue({ base: "center", md: "left" })}
             fontFamily={"heading"}
             color={useColorModeValue("gray.800", "white")}
           >
-            MyMusicList
+            <Link as="a" href="/">
+              MyMusicList
+            </Link>
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
@@ -69,45 +74,50 @@ export default function WithSubnavigation() {
           </Flex>
         </Flex>
 
-        <Spacer />
-        <Input size="md" id="input" placeholder="Search" />
-        <Spacer />
+        <Stack spacing={1} mr={10}>
+          <InputGroup>
+            <InputLeftElement
+              // eslint-disable-next-line react/no-children-prop
+              children={<SearchIcon />}
+            />
+            <Input size="md" id="input" placeholder="Search" width="300px" />
+          </InputGroup>
+        </Stack>
+
         <Stack
           flex={{ base: 1, md: 0 }}
           justify={"flex-end"}
           direction={"col"}
           spacing={6}
         >
-          <Spacer />
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            onClick={e => {
-              e.preventDefault();
-              const input = document.querySelector("#input");
-              const val = input.value;
-              window.location.href = `https://www.google.com/search?q=${val}`;
-            }}
-          >
-            Sign In
-          </Button>
-          <Spacer />
-          {/* <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={"pink.400"}
-            href={"#"}
-            onClick={() => console.log("hello")}
-            _hover={{
-              bg: "pink.300",
-            }}
-          >
-            Sign Up
-          </Button> */}
+          <ButtonGroup>
+            <Button
+              as={"a"}
+              display={{ base: "none", md: "inline-flex" }}
+              colorScheme={"orange"}
+              fontSize={"sm"}
+              fontWeight={600}
+              onClick={e => {
+                e.preventDefault();
+                const input = document.querySelector("#input");
+                const val = input.value;
+                window.location.href = `https://www.google.com/search?q=${val}`;
+              }}
+            >
+              Sign In
+            </Button>
+
+            <Button
+              display={{ base: "none", md: "inline-flex" }}
+              colorScheme={"pink"}
+              fontSize={"sm"}
+              fontWeight={600}
+              href={"#"}
+              onClick={() => console.log("hello")}
+            >
+              Sign Up
+            </Button>
+          </ButtonGroup>
         </Stack>
       </Flex>
 
@@ -124,7 +134,7 @@ const DesktopNav = () => {
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
-    <Stack direction={"row"} spacing={4}>
+    <Stack direction={"row"} spacing={8}>
       {NAV_ITEMS.map(navItem => (
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
@@ -303,7 +313,7 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: "My List",
+    label: "MyList",
     href: "#",
   },
   {
