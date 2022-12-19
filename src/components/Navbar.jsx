@@ -18,17 +18,26 @@ import {
   ButtonGroup,
   InputGroup,
   InputLeftElement,
+  useColorMode,
 } from "@chakra-ui/react";
+
 import {
   HamburgerIcon,
   CloseIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   SearchIcon,
+  MoonIcon,
+  SunIcon,
 } from "@chakra-ui/icons";
+
+import { FiLogIn } from "react-icons/fi";
+
+import { Link as RouterLink } from "react-router-dom";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
     <Box>
@@ -44,7 +53,7 @@ export default function WithSubnavigation() {
         align={"center"}
       >
         <Flex
-          flex={{ base: 1, md: "auto" }}
+          flex={{ base: 1, md: 2 }}
           ml={{ base: -2 }}
           display={{ base: "flex", md: "none" }}
         >
@@ -64,7 +73,7 @@ export default function WithSubnavigation() {
             fontFamily={"heading"}
             color={useColorModeValue("gray.800", "white")}
           >
-            <Link as="a" href="/">
+            <Link as={RouterLink} to="/">
               MyMusicList
             </Link>
           </Text>
@@ -76,11 +85,15 @@ export default function WithSubnavigation() {
 
         <Stack spacing={1} mr={10}>
           <InputGroup>
-            <InputLeftElement
-              // eslint-disable-next-line react/no-children-prop
-              children={<SearchIcon />}
+            {/* eslint-disable-next-line react/no-children-prop */}
+            <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
+            <Input
+              size="md"
+              id="input"
+              placeholder="Search"
+              width={["1em", "10em", "20em"]}
+              left
             />
-            <Input size="md" id="input" placeholder="Search" width="300px" />
           </InputGroup>
         </Stack>
 
@@ -97,6 +110,7 @@ export default function WithSubnavigation() {
               colorScheme={"orange"}
               fontSize={"sm"}
               fontWeight={600}
+              leftIcon={<FiLogIn />}
               onClick={e => {
                 e.preventDefault();
                 const input = document.querySelector("#input");
@@ -113,10 +127,13 @@ export default function WithSubnavigation() {
               fontSize={"sm"}
               fontWeight={600}
               href={"#"}
-              onClick={() => console.log("hello")}
             >
               Sign Up
             </Button>
+            <IconButton
+              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              onClick={toggleColorMode}
+            />
           </ButtonGroup>
         </Stack>
       </Flex>
@@ -134,14 +151,15 @@ const DesktopNav = () => {
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
-    <Stack direction={"row"} spacing={8}>
+    <Stack direction={"row"} spacing={2}>
       {NAV_ITEMS.map(navItem => (
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
               <Link
+                as={RouterLink}
                 p={2}
-                href={navItem.href ?? "#"}
+                to={navItem.href ?? "#"}
                 fontSize={"sm"}
                 fontWeight={500}
                 color={linkColor}
@@ -156,7 +174,10 @@ const DesktopNav = () => {
 
             {navItem.children && (
               <PopoverContent
-                border={0}
+                border={1}
+                borderStyle={"solid"}
+                // eslint-disable-next-line react-hooks/rules-of-hooks
+                borderColor={useColorModeValue("black", "white")}
                 boxShadow={"xl"}
                 bg={popoverContentBgColor}
                 p={4}
@@ -266,12 +287,12 @@ const MobileNavItem = ({ label, children, href }) => {
           pl={4}
           borderLeft={1}
           borderStyle={"solid"}
-          borderColor={useColorModeValue("gray.200", "gray.700")}
+          borderColor={useColorModeValue("black", "white")}
           align={"start"}
         >
           {children &&
             children.map(child => (
-              <Link key={child.label} py={2} href={child.href}>
+              <Link as={RouterLink} key={child.label} py={2} to={child.href}>
                 {child.label}
               </Link>
             ))}
@@ -318,6 +339,6 @@ const NAV_ITEMS = [
   },
   {
     label: "About",
-    href: "#",
+    href: "/about",
   },
 ];

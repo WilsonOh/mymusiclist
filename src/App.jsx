@@ -1,14 +1,8 @@
+import { Box } from "@chakra-ui/react";
 import "./App.css";
-import Navbar from "./components/Navbar";
-import Counter from "./components/Counter";
 
 function App() {
-  return (
-    <div className="App">
-      <Navbar />
-      <Counter />
-    </div>
-  );
+  return <Box>Main Page</Box>;
 }
 
 export default App;
