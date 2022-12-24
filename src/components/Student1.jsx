@@ -8,15 +8,13 @@ import {
   Stack,
   StackDivider,
   Icon,
+  Link,
   useColorModeValue,
+  HStack,
 } from "@chakra-ui/react";
-import {
-  IoAnalyticsSharp,
-  IoLogoBitcoin,
-  IoSearchSharp,
-} from "react-icons/io5";
+import { FiGithub, FiLinkedin, FiInstagram } from "react-icons/fi";
 
-const Feature = ({ text, icon, iconBg }) => {
+const Feature = ({ text, icon, iconBg, href }) => {
   return (
     <Stack direction={"row"} align={"center"}>
       <Flex
@@ -29,7 +27,9 @@ const Feature = ({ text, icon, iconBg }) => {
       >
         {icon}
       </Flex>
-      <Text fontWeight={600}>{text}</Text>
+      <Link fontWeight={600} href={href}>
+        {text}
+      </Link>
     </Stack>
   );
 };
@@ -44,18 +44,33 @@ export default function SplitWithImage() {
         p={10}
       >
         <Stack spacing={4}>
-          <Text
-            textTransform={"uppercase"}
-            color={"blue.400"}
-            fontWeight={600}
-            fontSize={"sm"}
-            bg={useColorModeValue("blue.50", "blue.900")}
-            p={2}
-            alignSelf={"flex-start"}
-            rounded={"md"}
-          >
-            Role
-          </Text>
+          <HStack>
+            <Text
+              textTransform={"uppercase"}
+              color={"blue.400"}
+              fontWeight={600}
+              fontSize={"sm"}
+              bg={useColorModeValue("blue.50", "blue.900")}
+              p={2}
+              alignSelf={"flex-start"}
+              rounded={"md"}
+            >
+              Developer
+            </Text>
+            <Text
+              textTransform={"uppercase"}
+              color={"blue.400"}
+              fontWeight={600}
+              fontSize={"sm"}
+              bg={useColorModeValue("blue.50", "blue.900")}
+              p={2}
+              alignSelf={"flex-start"}
+              rounded={"md"}
+            >
+              Design
+            </Text>
+          </HStack>
+
           <Heading>Pinran</Heading>
           <Text color={"gray.500"} fontSize={"lg"}>
             Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
@@ -70,23 +85,22 @@ export default function SplitWithImage() {
             }
           >
             <Feature
-              icon={
-                <Icon as={IoAnalyticsSharp} color={"yellow.500"} w={5} h={5} />
-              }
+              icon={<Icon as={FiGithub} color={"yellow.500"} w={5} h={5} />}
               iconBg={useColorModeValue("yellow.100", "yellow.900")}
-              text={"Link 1"}
+              text={"Github link"}
+              href={"https://github.com/Pinran-J"}
             />
             <Feature
-              icon={<Icon as={IoLogoBitcoin} color={"green.500"} w={5} h={5} />}
+              icon={<Icon as={FiLinkedin} color={"green.500"} w={5} h={5} />}
               iconBg={useColorModeValue("green.100", "green.900")}
-              text={"Link 2"}
+              text={"Linkedin link"}
+              href={"https://github.com/Pinran-J"}
             />
             <Feature
-              icon={
-                <Icon as={IoSearchSharp} color={"purple.500"} w={5} h={5} />
-              }
+              icon={<Icon as={FiInstagram} color={"purple.500"} w={5} h={5} />}
               iconBg={useColorModeValue("purple.100", "purple.900")}
-              text={"Link 3"}
+              text={"Instagram link"}
+              href={"https://github.com/Pinran-J"}
             />
           </Stack>
         </Stack>
