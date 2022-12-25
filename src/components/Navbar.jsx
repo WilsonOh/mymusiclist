@@ -319,7 +319,7 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: "Contact",
+    label: "MyList",
     children: [
       {
         label: "Job Board",
@@ -334,7 +334,7 @@ const NAV_ITEMS = [
     ],
   },
   {
-    label: "MyList",
+    label: "Contact",
     href: "#",
   },
   {
