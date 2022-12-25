@@ -12,6 +12,7 @@ import {
   Heading,
   Text,
   useColorModeValue,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
@@ -20,6 +21,9 @@ import { Link as RouterLink } from "react-router-dom";
 
 export default function SignupCard() {
   const [showPassword, setShowPassword] = useState(false);
+
+  const [password, setPassword] = useState("");
+  const [cfmPassword, setCfmPassword] = useState("");
 
   return (
     <Flex
@@ -67,6 +71,30 @@ export default function SignupCard() {
                     id="password"
                     name="password"
                     type={showPassword ? "text" : "password"}
+                    onChange={e => setPassword(e.target.value)}
+                  />
+                  <InputRightElement h={"full"}>
+                    <Button
+                      variant={"ghost"}
+                      onClick={() =>
+                        setShowPassword(showPassword => !showPassword)
+                      }
+                    >
+                      {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+              <FormControl isRequired isInvalid={password !== cfmPassword}>
+                <FormLabel htmlFor="cfm_password">Confirm Password</FormLabel>
+                <FormErrorMessage mb={1}>
+                  Passwords don&apos;t match
+                </FormErrorMessage>
+                <InputGroup>
+                  <Input
+                    id="cfm_password"
+                    type={showPassword ? "text" : "password"}
+                    onChange={e => setCfmPassword(e.target.value)}
                   />
                   <InputRightElement h={"full"}>
                     <Button
@@ -85,6 +113,7 @@ export default function SignupCard() {
                 loadingText="Submitting"
                 size="lg"
                 colorScheme="teal"
+                disabled={password !== cfmPassword}
               >
                 Sign Up
               </Button>
