@@ -1,10 +1,17 @@
-import { Box } from "@chakra-ui/react";
+import { Box, Divider, Heading } from "@chakra-ui/react";
+import Student1 from "./Student1";
+import Student2 from "./Student2";
+import TeamMission from "./TeamMission";
 
 const About = () => {
   return (
     <>
-      <Box borderRadius={"lg"} bg={"red"} p={3} textAlign="center" mb={6}>
-        Hello I&apos;m foo
+      <Box m="4">
+        <TeamMission></TeamMission>
+        <Divider></Divider>
+        <Heading p={100}>Our team</Heading>
+        <Student1></Student1>
+        <Student2></Student2>
       </Box>
     </>
   );
