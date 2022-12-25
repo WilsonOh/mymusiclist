@@ -85,7 +85,6 @@ export default function WithSubnavigation() {
 
         <Stack spacing={1} mr={10}>
           <InputGroup>
-            {/* eslint-disable-next-line react/no-children-prop */}
             <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
             <Input
               size="md"
@@ -105,23 +104,20 @@ export default function WithSubnavigation() {
         >
           <ButtonGroup>
             <Button
-              as={"a"}
+              as={RouterLink}
+              to="/login"
               display={{ base: "none", md: "inline-flex" }}
               colorScheme={"orange"}
               fontSize={"sm"}
               fontWeight={600}
               leftIcon={<FiLogIn />}
-              onClick={e => {
-                e.preventDefault();
-                const input = document.querySelector("#input");
-                const val = input.value;
-                window.location.href = `https://www.google.com/search?q=${val}`;
-              }}
             >
               Sign In
             </Button>
 
             <Button
+              as={RouterLink}
+              to="/signup"
               display={{ base: "none", md: "inline-flex" }}
               colorScheme={"pink"}
               fontSize={"sm"}

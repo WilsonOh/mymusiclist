@@ -7,6 +7,8 @@ import theme from "./theme";
 import About from "./components/About";
 import Counter from "./components/Counter";
 import Navbar from "./components/Navbar";
+import Login from "./components/Login";
+import Signup from "./components/Signup";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -17,6 +19,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Route path="/" element={<App />}></Route>
           <Route path="/about" element={<About />}></Route>
           <Route path="/counter" element={<Counter />}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/signup" element={<Signup />}></Route>
         </Routes>
       </BrowserRouter>
     </ChakraProvider>
