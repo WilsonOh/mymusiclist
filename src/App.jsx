@@ -1,8 +1,13 @@
-import { Box } from "@chakra-ui/react";
 import "./App.css";
+import MainCarousel from "./components/MainCarousel";
+import { Box } from "@chakra-ui/react";
 
-function App() {
-  return <Box>Main Page</Box>;
-}
+const App = () => {
+  return (
+    <Box>
+      <MainCarousel />
+    </Box>
+  );
+};
 
 export default App;
