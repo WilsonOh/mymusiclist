@@ -6,12 +6,12 @@ import TeamMission from "./TeamMission";
 const About = () => {
   return (
     <>
-      <Box m="4">
-        <TeamMission></TeamMission>
-        <Divider></Divider>
-        <Heading p={100}>Our team</Heading>
-        <Student1></Student1>
-        <Student2></Student2>
+      <Box>
+        <TeamMission />
+        <Divider />
+        <Heading pt={50}>Our team</Heading>
+        <Student1 />
+        <Student2 />
       </Box>
     </>
   );
