@@ -16,7 +16,7 @@ const settings = {
   autoplay: true,
   speed: 500,
   autoplaySpeed: 5000,
-  slidesToShow: 4,
+  slidesToShow: 6,
   slidesToScroll: 2,
 };
 
@@ -31,7 +31,7 @@ export default function CaptionCarousel() {
   const side = useBreakpointValue({ base: "30%", md: "40px" });
 
   return (
-    <Box position={"relative"} height={"600px"} overflow={"hidden"}>
+    <Box position={"relative"} height={"480px"} overflow={"hidden"}>
       {/* Left Icon */}
       <IconButton
         aria-label="left-arrow"
@@ -60,6 +60,9 @@ export default function CaptionCarousel() {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={slider => setSlider(slider)}>
+        <SimpleCard />
+        <SimpleCard />
+        <SimpleCard />
         <SimpleCard />
         <SimpleCard />
         <SimpleCard />
