@@ -59,3 +59,7 @@
   transform: scale(1.15);
   z-index: 1;
 }
+
+.slick-dots li button::before {
+  color: red !important;
+}
