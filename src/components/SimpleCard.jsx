@@ -13,7 +13,7 @@ const IMAGE =
 
 export default function ProductSimple() {
   return (
-    <Center py={12} mt={6}>
+    <Center py={12} mt={6} mx={1}>
       <Box
         role={"group"}
         p={6}
