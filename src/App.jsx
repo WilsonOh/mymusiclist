@@ -12,13 +12,13 @@ const App = () => {
         <MainCarousel />
       </Stack>
       <Stack divider={<StackDivider />}>
-        <Heading textAlign={"left"} ml={5} mt={10}>
+        <Heading textAlign={"left"} ml={5}>
           Heading 2
         </Heading>
         <MainCarousel />
       </Stack>
       <Stack divider={<StackDivider />}>
-        <Heading textAlign={"left"} ml={5} mt={10}>
+        <Heading textAlign={"left"} ml={5}>
           Heading 3
         </Heading>
         <MainCarousel />

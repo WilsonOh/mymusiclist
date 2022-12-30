@@ -6,6 +6,7 @@ import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import "../App.css";
 import SimpleCard from "./SimpleCard";
 
 // Settings for the slider
@@ -16,7 +17,7 @@ const settings = {
   autoplay: true,
   speed: 500,
   autoplaySpeed: 5000,
-  slidesToShow: 6,
+  slidesToShow: 8,
   slidesToScroll: 2,
 };
 
@@ -60,6 +61,9 @@ export default function CaptionCarousel() {
       </IconButton>
       {/* Slider */}
       <Slider {...settings} ref={slider => setSlider(slider)}>
+        <SimpleCard />
+        <SimpleCard />
+        <SimpleCard />
         <SimpleCard />
         <SimpleCard />
         <SimpleCard />
