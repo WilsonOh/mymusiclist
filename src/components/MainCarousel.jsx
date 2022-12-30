@@ -32,7 +32,7 @@ export default function CaptionCarousel() {
   const side = useBreakpointValue({ base: "30%", md: "40px" });
 
   return (
-    <Box position={"relative"} height={"480px"} overflow={"hidden"}>
+    <Box position={"relative"} height={"540px"} overflow={"hidden"}>
       {/* Left Icon */}
       <IconButton
         aria-label="left-arrow"
