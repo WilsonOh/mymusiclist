@@ -1,10 +1,14 @@
 import "./App.css";
 import MainCarousel from "./components/MainCarousel";
 import { Box, Heading, Stack, StackDivider } from "@chakra-ui/react";
+import AsNavFor from "./components/AsNavForCarousel";
 
 const App = () => {
   return (
     <Box>
+      <Stack divider={<StackDivider />}>
+        <AsNavFor></AsNavFor>
+      </Stack>
       <Stack divider={<StackDivider />}>
         <Heading textAlign={"left"} ml={5} mt={10}>
           Heading 1
