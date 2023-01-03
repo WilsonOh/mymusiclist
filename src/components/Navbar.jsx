@@ -37,12 +37,14 @@ import { FiLogIn } from "react-icons/fi";
 import { GoSignOut } from "react-icons/go";
 import { useAuth } from "../contexts/AuthContext";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { currentUser, signout } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   return (
     <Box>
@@ -118,6 +120,9 @@ export default function WithSubnavigation() {
                 icon={<GoSignOut />}
                 onClick={async () => {
                   await signout();
+                  if (location.pathname === "/profile") {
+                    navigate("/");
+                  }
                 }}
               />
             </HStack>
