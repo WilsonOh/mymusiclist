@@ -109,7 +109,11 @@ export default function WithSubnavigation() {
         >
           {currentUser ? (
             <HStack>
-              <Avatar name={currentUser.displayName} />
+              <Avatar
+                name={currentUser.displayName}
+                as={RouterLink}
+                to="/profile"
+              />
               <IconButton
                 icon={<GoSignOut />}
                 onClick={async () => {
