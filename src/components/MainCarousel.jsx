@@ -26,6 +26,7 @@ export default function CaptionCarousel() {
     infinite: false,
     autoplay: true,
     speed: 500,
+    className: "small_carousel",
     autoplaySpeed: 5000,
     slidesToShow: useBreakpointValue({ base: 1, md: 4, lg: 8 }),
     slidesToScroll: 2,

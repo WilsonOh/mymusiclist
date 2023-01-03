@@ -26,7 +26,7 @@ export default class AsNavFor extends Component {
   render() {
     const settings2 = {
       dots: true,
-      className: "center",
+      className: "center small_carousel",
       centerMode: true,
       infinite: true,
       centerPadding: "60px",
