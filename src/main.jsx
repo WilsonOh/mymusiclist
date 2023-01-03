@@ -9,20 +9,25 @@ import Counter from "./components/Counter";
 import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
+import AuthProvider from "./contexts/AuthContext";
+import UserProfile from "./components/UserProfile";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <ChakraProvider theme={theme}>
-      <BrowserRouter>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<App />}></Route>
-          <Route path="/about" element={<About />}></Route>
-          <Route path="/counter" element={<Counter />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/signup" element={<Signup />}></Route>
-        </Routes>
-      </BrowserRouter>
-    </ChakraProvider>
+    <AuthProvider>
+      <ChakraProvider theme={theme}>
+        <BrowserRouter>
+          <Navbar />
+          <Routes>
+            <Route path="/" element={<App />}></Route>
+            <Route path="/profile" element={<UserProfile />}></Route>
+            <Route path="/about" element={<About />}></Route>
+            <Route path="/counter" element={<Counter />}></Route>
+            <Route path="/login" element={<Login />}></Route>
+            <Route path="/signup" element={<Signup />}></Route>
+          </Routes>
+        </BrowserRouter>
+      </ChakraProvider>
+    </AuthProvider>
   </React.StrictMode>
 );

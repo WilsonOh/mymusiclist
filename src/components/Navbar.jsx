@@ -19,6 +19,8 @@ import {
   InputGroup,
   InputLeftElement,
   useColorMode,
+  Avatar,
+  HStack,
 } from "@chakra-ui/react";
 
 import {
@@ -32,12 +34,15 @@ import {
 } from "@chakra-ui/icons";
 
 import { FiLogIn } from "react-icons/fi";
+import { GoSignOut } from "react-icons/go";
+import { useAuth } from "../contexts/AuthContext";
 
 import { Link as RouterLink } from "react-router-dom";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+  const { currentUser, signout } = useAuth();
 
   return (
     <Box>
@@ -102,35 +107,47 @@ export default function WithSubnavigation() {
           direction={"col"}
           spacing={6}
         >
-          <ButtonGroup>
-            <Button
-              as={RouterLink}
-              to="/login"
-              display={{ base: "none", md: "inline-flex" }}
-              colorScheme={"orange"}
-              fontSize={"sm"}
-              fontWeight={600}
-              leftIcon={<FiLogIn />}
-            >
-              Sign In
-            </Button>
+          {currentUser ? (
+            <HStack>
+              <Avatar name={currentUser.displayName} />
+              <IconButton
+                icon={<GoSignOut />}
+                onClick={async () => {
+                  await signout();
+                }}
+              />
+            </HStack>
+          ) : (
+            <ButtonGroup>
+              <Button
+                as={RouterLink}
+                to="/login"
+                display={{ base: "none", md: "inline-flex" }}
+                colorScheme={"orange"}
+                fontSize={"sm"}
+                fontWeight={600}
+                leftIcon={<FiLogIn />}
+              >
+                Sign In
+              </Button>
 
-            <Button
-              as={RouterLink}
-              to="/signup"
-              display={{ base: "none", md: "inline-flex" }}
-              colorScheme={"pink"}
-              fontSize={"sm"}
-              fontWeight={600}
-              href={"#"}
-            >
-              Sign Up
-            </Button>
-            <IconButton
-              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-              onClick={toggleColorMode}
-            />
-          </ButtonGroup>
+              <Button
+                as={RouterLink}
+                to="/signup"
+                display={{ base: "none", md: "inline-flex" }}
+                colorScheme={"pink"}
+                fontSize={"sm"}
+                fontWeight={600}
+                href={"#"}
+              >
+                Sign Up
+              </Button>
+              <IconButton
+                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+                onClick={toggleColorMode}
+              />
+            </ButtonGroup>
+          )}
         </Stack>
       </Flex>
 

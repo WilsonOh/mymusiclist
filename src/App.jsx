@@ -7,7 +7,7 @@ const App = () => {
   return (
     <Box>
       <Stack divider={<StackDivider />}>
-        <AsNavFor></AsNavFor>
+        <AsNavFor />
       </Stack>
       <Stack divider={<StackDivider />}>
         <Heading textAlign={"left"} ml={5} mt={10}>

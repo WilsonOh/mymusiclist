@@ -9,18 +9,6 @@ import "slick-carousel/slick/slick-theme.css";
 import "../App.css";
 import SimpleCard from "./SimpleCard";
 
-// Settings for the slider
-const settings = {
-  dots: true,
-  arrows: false,
-  infinite: false,
-  autoplay: true,
-  speed: 500,
-  autoplaySpeed: 5000,
-  slidesToShow: 8,
-  slidesToScroll: 2,
-};
-
 export default function CaptionCarousel() {
   // As we have used custom buttons, we need a reference variable to
   // change the state
@@ -30,6 +18,18 @@ export default function CaptionCarousel() {
   // buttons as the screen size changes
   const top = useBreakpointValue({ base: "90%", md: "50%" });
   const side = useBreakpointValue({ base: "30%", md: "40px" });
+
+  // Settings for the slider
+  const settings = {
+    dots: true,
+    arrows: false,
+    infinite: false,
+    autoplay: true,
+    speed: 500,
+    autoplaySpeed: 5000,
+    slidesToShow: useBreakpointValue({ base: 1, md: 4, lg: 8 }),
+    slidesToScroll: 2,
+  };
 
   return (
     <Box position={"relative"} height={"540px"} overflow={"hidden"}>

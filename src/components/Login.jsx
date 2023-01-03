@@ -17,21 +17,47 @@ import {
   IconButton,
   FormLabel,
   useColorModeValue,
+  useBoolean,
+  FormErrorMessage,
 } from "@chakra-ui/react";
 import { FaUserAlt, FaLock } from "react-icons/fa";
 import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
 
 import { AiOutlineUser } from "react-icons/ai";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { useAuth } from "../contexts/AuthContext";
 
 const CFaUserAlt = chakra(FaUserAlt);
 const CFaLock = chakra(FaLock);
 
 const App = () => {
   const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [wrongPassword, setWrongPassword] = useBoolean();
+  const [invalidUser, setInvalidUser] = useBoolean();
+  const navigate = useNavigate();
 
   const handleShowClick = () => setShowPassword(!showPassword);
+
+  const { login } = useAuth();
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      await login(email, password);
+      navigate("/profile");
+    } catch (error) {
+      console.log(error.code);
+      if (error.code === "auth/wrong-password") {
+        setWrongPassword.on();
+      } else if (error.code === "auth/user-not-found") {
+        setInvalidUser.on();
+      }
+    }
+    return false;
+  };
 
   return (
     <Flex
@@ -48,20 +74,31 @@ const App = () => {
           minW={{ base: "90%", md: "468px" }}
           bg={useColorModeValue("white", "gray.800")}
         >
-          <form action="/signin" method="post">
+          <form onSubmit={handleSubmit}>
             <Stack
               spacing={4}
               p="1rem"
               bg={useColorModeValue("whiteAlpha.900", "gray.800")}
               boxShadow="md"
             >
-              <FormControl variant="floating" isRequired>
+              <FormControl
+                variant="floating"
+                isRequired
+                isInvalid={invalidUser}
+              >
+                <FormErrorMessage mb={3}>Invalid User</FormErrorMessage>
                 <InputGroup>
                   <InputLeftElement
                     pointerEvents="none"
                     children={<CFaUserAlt color="gray.300" />}
                   />
-                  <Input name="email" id="email" type="email" placeholder=" " />
+                  <Input
+                    name="email"
+                    id="email"
+                    type="email"
+                    placeholder=" "
+                    onChange={e => setEmail(e.target.value)}
+                  />
                   <FormLabel
                     htmlFor="email"
                     color="grey"
@@ -71,7 +108,12 @@ const App = () => {
                   </FormLabel>
                 </InputGroup>
               </FormControl>
-              <FormControl variant="floating" isRequired>
+              <FormControl
+                variant="floating"
+                isRequired
+                isInvalid={wrongPassword}
+              >
+                <FormErrorMessage mb={3}>Wrong Password</FormErrorMessage>
                 <InputGroup>
                   <InputLeftElement
                     pointerEvents="none"
@@ -79,6 +121,7 @@ const App = () => {
                     children={<CFaLock color="gray.300" />}
                   />
                   <Input
+                    onChange={e => setPassword(e.target.value)}
                     type={showPassword ? "text" : "password"}
                     name="password"
                     id="password"
