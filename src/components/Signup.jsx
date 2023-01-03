@@ -45,13 +45,13 @@ export default function SignupCard() {
       await updateProfile(getAuth().currentUser, {
         displayName: `${firstName} ${lastName}`,
       });
+      setSignedUp.on();
     } catch (error) {
       if (error.code === "auth/email-already-in-use") {
         setInvalidEmail.on();
       }
     }
     toggleLoading.off();
-    setSignedUp.on();
     // return false to prevent the form data from showing up in the url params
     return false;
   };
