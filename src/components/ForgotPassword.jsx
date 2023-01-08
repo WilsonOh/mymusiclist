@@ -1,5 +1,6 @@
-import { CheckIcon } from "@chakra-ui/icons";
 import {
+  Alert,
+  AlertIcon,
   Button,
   FormControl,
   Heading,
@@ -48,6 +49,11 @@ export default function ForgotPasswordForm() {
         >
           You&apos;ll get an email with a reset link
         </Text>
+        {hasReset && (
+          <Alert status="success">
+            <AlertIcon />A reset link has been sent to {email}!
+          </Alert>
+        )}
         <FormControl>
           <Input
             placeholder="your-email@example.com"
@@ -56,20 +62,9 @@ export default function ForgotPasswordForm() {
             onChange={e => setEmail(e.target.value)}
           />
         </FormControl>
-        {hasReset ? (
-          <Button
-            colorScheme="green"
-            type="button"
-            onClick={e => e.preventDefault()}
-            rightIcon={<CheckIcon />}
-          >
-            A reset link has been sent!
-          </Button>
-        ) : (
-          <Button colorScheme="teal" type="submit">
-            Request Reset
-          </Button>
-        )}
+        <Button colorScheme="teal" type="submit">
+          Request Reset
+        </Button>
       </Stack>
     </form>
   );
