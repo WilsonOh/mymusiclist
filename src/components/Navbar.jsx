@@ -112,9 +112,14 @@ export default function WithSubnavigation() {
           <ButtonGroup>
             {currentUser ? (
               <>
-                <Popover>
+                <Popover placement="bottom-start">
                   <PopoverTrigger>
-                    <Avatar name={currentUser.displayName} as={Button} />
+                    <Avatar
+                      src={currentUser.photoURL}
+                      name={currentUser.displayName}
+                      cursor="pointer"
+                      size="md"
+                    />
                   </PopoverTrigger>
                   <Portal>
                     <PopoverContent>
