@@ -3,6 +3,7 @@ import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signInWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
@@ -18,6 +19,10 @@ const AuthProvider = ({ children }) => {
 
   const signup = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const resetPassword = email => {
+    return sendPasswordResetEmail(auth, email);
   };
 
   const login = (email, password) => {
@@ -38,6 +43,7 @@ const AuthProvider = ({ children }) => {
     currentUser,
     signup,
     login,
+    resetPassword,
     signout,
   };
 

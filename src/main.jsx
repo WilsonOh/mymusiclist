@@ -10,7 +10,8 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AuthProvider from "./contexts/AuthContext";
-import UserProfile from "./components/UserProfile";
+// import UserProfile from "./components/UserProfile";
+// import ProtectedRoute from "./components/ProtectedRoute";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -20,7 +21,14 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Navbar />
           <Routes>
             <Route path="/" element={<App />}></Route>
-            <Route path="/profile" element={<UserProfile />}></Route>
+            {/* <Route
+              path="/profile"
+              element={
+                <ProtectedRoute redirect={"/"}>
+                  <UserProfile />
+                </ProtectedRoute>
+              }
+            ></Route> */}
             <Route path="/about" element={<About />}></Route>
             <Route path="/counter" element={<Counter />}></Route>
             <Route path="/login" element={<Login />}></Route>
