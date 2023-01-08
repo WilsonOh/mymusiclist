@@ -9,4 +9,4 @@
 
 ## Todo
 
-- [ ] Do up skeleton of the website
+- [ ] Complete the update profile modal using firebase updateEmail, updatePassword and updateProfile (for the display name)
