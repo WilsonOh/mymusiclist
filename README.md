@@ -9,4 +9,4 @@
 
 ## Todo
 
-- [ ] Complete the update profile modal using firebase updateEmail, updatePassword and updateProfile (for the display name)
+- [x] Complete the update profile modal using firebase updateEmail, updatePassword and updateProfile (for the display name)

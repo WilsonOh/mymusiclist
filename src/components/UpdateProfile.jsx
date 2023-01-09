@@ -7,17 +7,58 @@ import {
   Stack,
   useColorModeValue,
   Avatar,
-  AvatarBadge,
-  IconButton,
   Center,
+  InputGroup,
+  InputRightElement,
+  FormErrorMessage,
+  Text,
+  Alert,
+  AlertIcon,
 } from "@chakra-ui/react";
-import { SmallCloseIcon } from "@chakra-ui/icons";
-import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 import { useAuth } from "../contexts/AuthContext";
-import { updateProfile } from "firebase/auth";
+import { ViewIcon, ViewOffIcon } from "@chakra-ui/icons";
+import { useState } from "react";
 
 export default function UserProfileEdit({ onClose }) {
-  const { currentUser } = useAuth();
+  const {
+    currentUser,
+    changeEmail,
+    changePhotoURL,
+    changeDisplayName,
+    changePassword,
+  } = useAuth();
+  const [showPassword, setShowPassword] = useState(false);
+  const [password, setPassword] = useState("");
+  const [cfmPassword, setCfmPassword] = useState("");
+  const [newEmail, setNewEmail] = useState("");
+  const [newDisplayName, setNewDisplayName] = useState("");
+  const [newPhoto, setNewPhoto] = useState("");
+  const [profileUpdated, setProfileUpdated] = useState(false);
+
+  const handleSubmit = async e => {
+    e.preventDefault();
+    try {
+      let promises = [];
+      if (newPhoto) {
+        promises.push(changePhotoURL(newPhoto));
+      }
+      if (newEmail) {
+        promises.push(changeEmail(newEmail));
+      }
+      if (newDisplayName) {
+        promises.push(changeDisplayName(newDisplayName));
+      }
+      if (password) {
+        promises.push(changePassword(password));
+      }
+      await Promise.all(promises);
+    } catch (error) {
+      console.error(`unable to update profile with error: ${error}`);
+    }
+    console.log(currentUser);
+    setProfileUpdated(true);
+  };
+
   return (
     <Stack
       spacing={4}
@@ -33,22 +74,26 @@ export default function UserProfileEdit({ onClose }) {
           Update Profile
         </Heading>
       </Center>
+      <Text color="gray.500">
+        You only have to fill up the fields you want to change
+      </Text>
 
-      <FormControl id="userName">
-        <FormLabel>User Icon</FormLabel>
+      {profileUpdated && (
+        <Alert status="success">
+          <AlertIcon />
+          Your profile has successfully updated
+        </Alert>
+      )}
+
+      <Stack as="form" direction="column" onSubmit={handleSubmit}>
         <Stack direction={["column", "row"]} spacing={6}>
           <Center>
-            <Avatar size="xl" src={currentUser.photoURL}>
-              <AvatarBadge
-                as={IconButton}
-                size="sm"
-                rounded="full"
-                top="-10px"
-                colorScheme="red"
-                aria-label="remove Image"
-                icon={<SmallCloseIcon />}
-              />
-            </Avatar>
+            <Avatar
+              size="xl"
+              src={
+                newPhoto ? URL.createObjectURL(newPhoto) : currentUser.photoURL
+              }
+            />
           </Center>
           <Center w="full">
             <Button as="label" htmlFor="profileImage" w="full">
@@ -56,59 +101,87 @@ export default function UserProfileEdit({ onClose }) {
             </Button>
           </Center>
           <Input
-            onChange={async e => {
-              const files = e.target.files;
-              const filePath = URL.createObjectURL(files[0]);
-              const storage = getStorage();
-              const storageRef = ref(storage, `profile_icons/${files[0].name}`);
-              const resp = await fetch(filePath);
-              const blob = await resp.blob();
-              await uploadBytes(storageRef, blob);
-              const url = await getDownloadURL(
-                ref(storage, `profile_icons/${files[0].name}`)
-              );
-              await updateProfile(currentUser, {
-                photoURL: url,
-              });
-            }}
+            onChange={e => setNewPhoto(e.target.files[0])}
             type="file"
             id="profileImage"
             accept="image/*"
             display="none"
           />
         </Stack>
-      </FormControl>
-      <FormControl id="userName" isRequired>
-        <FormLabel>User name</FormLabel>
-        <Input
-          placeholder="UserName"
-          _placeholder={{ color: "gray.500" }}
-          type="text"
-        />
-      </FormControl>
-      <FormControl id="email" isRequired>
-        <FormLabel>Email address</FormLabel>
-        <Input
-          placeholder="your-email@example.com"
-          _placeholder={{ color: "gray.500" }}
-          type="email"
-        />
-      </FormControl>
-      <FormControl id="password" isRequired>
-        <FormLabel>Password</FormLabel>
-        <Input
-          placeholder="password"
-          _placeholder={{ color: "gray.500" }}
-          type="password"
-        />
-      </FormControl>
-      <Stack spacing={6} direction={["column", "row"]}>
-        <Button w="full" colorScheme="red" onClick={onClose}>
-          Cancel
-        </Button>
-        <Button w="full" colorScheme="green">
-          Submit
-        </Button>
+        <FormControl id="displayName">
+          <FormLabel>Display Name</FormLabel>
+          <Input
+            onChange={e => setNewDisplayName(e.target.value)}
+            type="text"
+            placeholder={currentUser.displayName}
+            _placeholder={{ color: "gray.500" }}
+          />
+        </FormControl>
+        <FormControl id="email">
+          <FormLabel>Email Address</FormLabel>
+          <Input
+            onChange={e => setNewEmail(e.target.value)}
+            placeholder={currentUser.email}
+            _placeholder={{ color: "gray.500" }}
+            type="email"
+          />
+        </FormControl>
+        <FormControl>
+          <FormLabel htmlFor="password">Password</FormLabel>
+          <InputGroup>
+            <Input
+              id="password"
+              name="password"
+              type={showPassword ? "text" : "password"}
+              onChange={e => setPassword(e.target.value)}
+            />
+            <InputRightElement h={"full"}>
+              <Button
+                variant={"ghost"}
+                onClick={() => setShowPassword(showPassword => !showPassword)}
+              >
+                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
+        <FormControl isInvalid={password !== cfmPassword}>
+          <FormLabel htmlFor="cfm_password">Confirm Password</FormLabel>
+          <FormErrorMessage mb={1}>Passwords don&apos;t match</FormErrorMessage>
+          <InputGroup>
+            <Input
+              id="cfm_password"
+              type={showPassword ? "text" : "password"}
+              onChange={e => setCfmPassword(e.target.value)}
+            />
+            <InputRightElement h={"full"}>
+              <Button
+                variant={"ghost"}
+                onClick={() => setShowPassword(showPassword => !showPassword)}
+              >
+                {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </FormControl>
+        <Stack spacing={6} mt={20} direction={["column", "row"]}>
+          <Button
+            w="full"
+            colorScheme="red"
+            onClick={e => {
+              onClose(e);
+              setNewEmail("");
+              setNewDisplayName("");
+              setPassword("");
+              setCfmPassword("");
+            }}
+          >
+            Cancel
+          </Button>
+          <Button w="full" colorScheme="green" type="submit">
+            Submit
+          </Button>
+        </Stack>
       </Stack>
     </Stack>
   );
