@@ -2,7 +2,10 @@ import React, { useState } from "react";
 import Slider from "react-slick";
 import SimpleCard from "./SimpleCard";
 import { Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
-import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
+import {
+  BsFillArrowLeftSquareFill,
+  BsFillArrowRightSquareFill,
+} from "react-icons/bs";
 import MainCard from "./MainCard";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -81,7 +84,7 @@ export default function AsNavFor() {
           zIndex={2}
           onClick={() => slider2?.slickPrev()}
         >
-          <BiLeftArrowAlt size="40px" />
+          <BsFillArrowLeftSquareFill size="40px" />
         </IconButton>
         {/* Right Icon */}
         <IconButton
@@ -94,7 +97,7 @@ export default function AsNavFor() {
           zIndex={2}
           onClick={() => slider2?.slickNext()}
         >
-          <BiRightArrowAlt size="40px" />
+          <BsFillArrowRightSquareFill size="40px" />
         </IconButton>
         <Slider
           {...settings2}
