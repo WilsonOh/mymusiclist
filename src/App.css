@@ -47,11 +47,15 @@
   overflow: visible !important;
 }
 
+.small_carousel .slick-track:hover .slick-slide {
+  transform: translateX(-10%);
+}
+
 .small_carousel .slick-slide:hover ~ .slick-slide {
   transform: translateX(10%);
 }
 
-.small_carousel .slick-slide:hover {
+.small_carousel .slick-track .slick-slide:hover {
   transform: scale(1.15);
   z-index: 1;
 }

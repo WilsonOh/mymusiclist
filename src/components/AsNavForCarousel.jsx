@@ -34,6 +34,8 @@ export default class AsNavFor extends Component {
       swipeToSlide: true,
       focusOnSelect: true,
       speed: 500,
+      autoplay: true,
+      autoplaySpeed: 3000,
     };
     const settings1 = {
       fade: true,
