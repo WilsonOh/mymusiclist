@@ -9,12 +9,11 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-const IMAGE =
-  "https://www.rollingstone.com/wp-content/uploads/2019/02/take-care.jpg?w=800";
-
-export default function ProductSimple() {
+export default function ProductSimple(props) {
+  const { name, img, id } = props;
+  const IMAGE = img;
   return (
-    <Link to={`/song/test`}>
+    <Link to={`/song/${id}`}>
       <Center py={12} mt={6} mx={1}>
         <Box
           role={"group"}
@@ -67,7 +66,7 @@ export default function ProductSimple() {
               Brand
             </Text>
             <Heading fontSize={"2xl"} fontFamily={"body"} fontWeight={500}>
-              Nice Chair, pink
+              {name}
             </Heading>
             <Stack direction={"row"} align={"center"}>
               <Text fontWeight={800} fontSize={"xl"}>
