@@ -31,7 +31,6 @@ export default function AsNavFor() {
     centerPadding: "60px",
     slidesToShow: 7,
     swipeToSlide: true,
-    focusOnSelect: true,
     speed: 500,
     autoplay: true,
     autoplaySpeed: 3000,
