@@ -14,7 +14,36 @@ import {
   List,
   ListItem,
 } from "@chakra-ui/react";
-import { MdLocalShipping } from "react-icons/md";
+import { BiMusic } from "react-icons/bi";
+import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
+
+function Rating({ rating, numReviews }) {
+  return (
+    <Box display="flex" alignItems="center" justifyContent={"center"}>
+      {Array(5)
+        .fill("")
+        .map((_, i) => {
+          const roundedRating = Math.round(rating * 2) / 2;
+          if (roundedRating - i >= 1) {
+            return (
+              <BsStarFill
+                key={i}
+                style={{ marginLeft: "1" }}
+                color={i < rating ? "teal.500" : "gray.300"}
+              />
+            );
+          }
+          if (roundedRating - i === 0.5) {
+            return <BsStarHalf key={i} style={{ marginLeft: "1" }} />;
+          }
+          return <BsStar key={i} style={{ marginLeft: "1" }} />;
+        })}
+      <Box as="span" ml="2" color="gray.600" fontSize="sm">
+        {numReviews} review{numReviews > 1 && "s"}
+      </Box>
+    </Box>
+  );
+}
 
 export default function Song() {
   return (
@@ -24,18 +53,37 @@ export default function Song() {
         spacing={{ base: 8, md: 10 }}
         py={{ base: 18, md: 24 }}
       >
-        <Flex>
-          <Image
-            rounded={"md"}
-            alt={"product image"}
-            src={
-              "https://images.unsplash.com/photo-1596516109370-29001ec8ec36?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwyODE1MDl8MHwxfGFsbHx8fHx8fHx8fDE2Mzg5MzY2MzE&ixlib=rb-1.2.1&q=80&w=1080"
-            }
-            fit={"cover"}
-            align={"center"}
-            w={"100%"}
-            h={{ base: "100%", sm: "400px", lg: "500px" }}
-          />
+        <Flex alignItems={"center"} zIndex={"1"}>
+          <Box
+            rounded={"lg"}
+            mt={-12}
+            pos={"relative"}
+            height={"600px"}
+            _after={{
+              transition: "all .3s ease",
+              content: '""',
+              w: "full",
+              h: "full",
+              pos: "absolute",
+              top: 0,
+              left: 0,
+              backgroundImage: `url("https://upload.wikimedia.org/wikipedia/en/1/12/21_Savage_-_Issa_Album.png")`,
+              filter: "blur(15px)",
+              zIndex: -1,
+            }}
+          >
+            <Image
+              rounded={"md"}
+              alt={"product image"}
+              src={
+                "https://upload.wikimedia.org/wikipedia/en/1/12/21_Savage_-_Issa_Album.png"
+              }
+              fit={"cover"}
+              align={"center"}
+              w={"100%"}
+              h={{ base: "100%", sm: "600px", lg: "600px" }}
+            />
+          </Box>
         </Flex>
         <Stack spacing={{ base: 6, md: 10 }}>
           <Box as={"header"}>
@@ -44,15 +92,18 @@ export default function Song() {
               fontWeight={600}
               fontSize={{ base: "2xl", sm: "4xl", lg: "5xl" }}
             >
-              Automatic Watch
+              Album Title
             </Heading>
             <Text
               color={useColorModeValue("gray.900", "gray.400")}
               fontWeight={300}
               fontSize={"2xl"}
             >
-              $350.00 USD
+              Artist Name
             </Text>
+            <Box alignContent={"center"} mt={"5"}>
+              <Rating rating={5} numReviews={200} />
+            </Box>
           </Box>
 
           <Stack
@@ -177,12 +228,12 @@ export default function Song() {
               boxShadow: "lg",
             }}
           >
-            Add to cart
+            Add to list
           </Button>
 
           <Stack direction="row" alignItems="center" justifyContent={"center"}>
-            <MdLocalShipping />
-            <Text>2-3 business days delivery</Text>
+            <BiMusic />
+            <Text>Add this to your list to start rating the song!</Text>
           </Stack>
         </Stack>
       </SimpleGrid>
