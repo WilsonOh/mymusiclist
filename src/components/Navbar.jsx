@@ -20,7 +20,8 @@ import {
   InputLeftElement,
   useColorMode,
   Avatar,
-  HStack,
+  Portal,
+  PopoverArrow,
 } from "@chakra-ui/react";
 
 import {
@@ -37,14 +38,13 @@ import { FiLogIn } from "react-icons/fi";
 import { GoSignOut } from "react-icons/go";
 import { useAuth } from "../contexts/AuthContext";
 
-import { Link as RouterLink, useLocation, useNavigate } from "react-router-dom";
+import { Link as RouterLink } from "react-router-dom";
+import SocialProfileWithImage from "./CurrentUser";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { currentUser, signout } = useAuth();
-  const location = useLocation();
-  const navigate = useNavigate();
 
   return (
     <Box>
@@ -109,54 +109,65 @@ export default function WithSubnavigation() {
           direction={"col"}
           spacing={6}
         >
-          {currentUser ? (
-            <HStack>
-              <Avatar
-                name={currentUser.displayName}
-                as={RouterLink}
-                to="/profile"
-              />
-              <IconButton
-                icon={<GoSignOut />}
-                onClick={async () => {
-                  await signout();
-                  if (location.pathname === "/profile") {
-                    navigate("/");
-                  }
-                }}
-              />
-            </HStack>
-          ) : (
-            <ButtonGroup>
-              <Button
-                as={RouterLink}
-                to="/login"
-                display={{ base: "none", md: "inline-flex" }}
-                colorScheme={"orange"}
-                fontSize={"sm"}
-                fontWeight={600}
-                leftIcon={<FiLogIn />}
-              >
-                Sign In
-              </Button>
+          <ButtonGroup>
+            {currentUser ? (
+              <>
+                <Popover placement="bottom-start">
+                  <PopoverTrigger>
+                    <Avatar
+                      src={currentUser.photoURL}
+                      name={currentUser.displayName}
+                      cursor="pointer"
+                      size="md"
+                    />
+                  </PopoverTrigger>
+                  <Portal>
+                    <PopoverContent>
+                      <PopoverArrow />
+                      <SocialProfileWithImage />
+                    </PopoverContent>
+                  </Portal>
+                </Popover>
+                <IconButton
+                  icon={<GoSignOut />}
+                  onClick={async () => {
+                    await signout();
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <Button
+                  as={RouterLink}
+                  to="/login"
+                  display={{ base: "none", md: "inline-flex" }}
+                  colorScheme={"orange"}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  leftIcon={<FiLogIn />}
+                >
+                  Sign In
+                </Button>
 
-              <Button
-                as={RouterLink}
-                to="/signup"
-                display={{ base: "none", md: "inline-flex" }}
-                colorScheme={"pink"}
-                fontSize={"sm"}
-                fontWeight={600}
-                href={"#"}
-              >
-                Sign Up
-              </Button>
-              <IconButton
-                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-                onClick={toggleColorMode}
-              />
-            </ButtonGroup>
-          )}
+                <Button
+                  as={RouterLink}
+                  to="/signup"
+                  display={{ base: "none", md: "inline-flex" }}
+                  colorScheme={"pink"}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  href={"#"}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+            <IconButton
+              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              onClick={toggleColorMode}
+            />
+          </ButtonGroup>
+          )
         </Stack>
       </Flex>
 

@@ -10,7 +10,6 @@ import Navbar from "./components/Navbar";
 import Login from "./components/Login";
 import Signup from "./components/Signup";
 import AuthProvider from "./contexts/AuthContext";
-import UserProfile from "./components/UserProfile";
 import Song from "./components/Song";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
@@ -22,7 +21,6 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           <Routes>
             <Route path="/" element={<App />}></Route>
             <Route path="/song/:id" element={<Song />}></Route>
-            <Route path="/profile" element={<UserProfile />}></Route>
             <Route path="/about" element={<About />}></Route>
             <Route path="/counter" element={<Counter />}></Route>
             <Route path="/login" element={<Login />}></Route>
