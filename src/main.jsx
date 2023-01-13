@@ -5,12 +5,12 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import theme from "./theme";
 import AuthProvider from "./contexts/AuthContext";
 import App from "./App";
-const About = lazyLoadComponent("./components/About");
-const Counter = lazyLoadComponent("./components/Counter");
-const Navbar = lazyLoadComponent("./components/Navbar");
-const Login = lazyLoadComponent("./components/Login");
-const Signup = lazyLoadComponent("./components/Signup");
-const Song = lazyLoadComponent("./components/Song");
+import Navbar from "./components/Navbar";
+const About = lazy(() => import("./components/About"));
+const Counter = lazy(() => import("./components/Counter"));
+const Login = lazy(() => import("./components/Login"));
+const Signup = lazy(() => import("./components/Signup"));
+const Song = lazy(() => import("./components/Song"));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
@@ -33,7 +33,3 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     </AuthProvider>
   </React.StrictMode>
 );
-
-function lazyLoadComponent(component) {
-  return lazy(() => import(component));
-}
