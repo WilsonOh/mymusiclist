@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import React, { lazy, Suspense, useState } from "react";
+import { Box, IconButton, Spinner, useBreakpointValue } from "@chakra-ui/react";
 // Here we have used react-icons package for the icons
 import { BiLeftArrowAlt, BiRightArrowAlt } from "react-icons/bi";
 // And react-slick as our Carousel Lib
@@ -7,7 +7,7 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../App.css";
-import SimpleCard from "./SimpleCard";
+const SimpleCard = lazy(() => import("./SimpleCard"));
 
 export default function CaptionCarousel() {
   // As we have used custom buttons, we need a reference variable to
@@ -123,16 +123,17 @@ export default function CaptionCarousel() {
       >
         <BiRightArrowAlt size="40px" />
       </IconButton>
-      {/* Slider */}
       <Slider {...settings} ref={slider => setSlider(slider)}>
         {test.map(song => {
           return (
-            <SimpleCard
-              name={song.name}
-              img={song.img}
-              id={song.id}
-              key={song.id}
-            />
+            <Suspense fallback={<Spinner />} key={song.id}>
+              <SimpleCard
+                name={song.name}
+                img={song.img}
+                id={song.id}
+                key={song.id}
+              />
+            </Suspense>
           );
         })}
       </Slider>

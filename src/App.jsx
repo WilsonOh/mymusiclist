@@ -1,6 +1,7 @@
 import "./App.css";
+import { Suspense } from "react";
+import { Box, Heading, Spinner, Stack, StackDivider } from "@chakra-ui/react";
 import MainCarousel from "./components/MainCarousel";
-import { Box, Heading, Stack, StackDivider } from "@chakra-ui/react";
 import AsNavFor from "./components/AsNavForCarousel";
 
 const App = () => {
@@ -13,7 +14,9 @@ const App = () => {
         <Heading textAlign={"left"} ml={5} mt={10}>
           Heading 1
         </Heading>
-        <MainCarousel />
+        <Suspense fallback={<Spinner />}>
+          <MainCarousel />
+        </Suspense>
       </Stack>
       <Stack divider={<StackDivider />}>
         <Heading textAlign={"left"} ml={5}>

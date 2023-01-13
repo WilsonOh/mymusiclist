@@ -6,6 +6,7 @@ import {
   Text,
   Stack,
   Image,
+  Spinner,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
@@ -55,6 +56,8 @@ export default function ProductSimple(props) {
               width={282}
               objectFit={"cover"}
               src={IMAGE}
+              fallback={<Spinner />}
+              loading="lazy"
             />
           </Box>
           <Stack pt={10} align={"center"}>
