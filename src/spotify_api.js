@@ -34,8 +34,8 @@ export default async function GetTrack(track_name) {
 }
 
 async function get_token() {
-  const CLIENT_ID = import.meta.env.SPOTIFY_CLIENT_ID;
-  const CLIENT_SECRET = import.meta.env.SPOTIFY_CLIENT_SECRET;
+  const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+  const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
 
   const CLIENT_CRED = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
     "base64"

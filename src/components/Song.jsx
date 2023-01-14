@@ -18,7 +18,6 @@ import {
 import { useEffect, useState } from "react";
 import { BiMusic } from "react-icons/bi";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
-import GetTrack from "../spotify_api";
 
 function Rating({ rating, numReviews }) {
   return (
@@ -51,13 +50,15 @@ function Rating({ rating, numReviews }) {
 export default function Song({ track_name }) {
   const [track, setTrack] = useState();
   useEffect(() => {
-    GetTrack(track_name).then(setTrack);
+    import("../spotify_api")
+      .then(module => module.default(track_name))
+      .then(setTrack);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
     <>
       {track && (
-        <Container maxW={"7xl"}>
+        <Container maxW={{ base: "2xl", md: "4xl", lg: "7xl" }}>
           <SimpleGrid
             columns={{ base: 1, lg: 2 }}
             spacing={{ base: 8, md: 10 }}
