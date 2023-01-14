@@ -22,9 +22,6 @@ import {
   Avatar,
   Portal,
   PopoverArrow,
-  Modal,
-  ModalOverlay,
-  ModalContent,
 } from "@chakra-ui/react";
 
 import {
@@ -41,170 +38,157 @@ import { FiLogIn } from "react-icons/fi";
 import { GoSignOut } from "react-icons/go";
 import { useAuth } from "../contexts/AuthContext";
 
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import SocialProfileWithImage from "./CurrentUser";
-import Song from "./Song";
+import { useSpotifyAPI } from "../contexts/SpotifyAPIContext";
 import { useState } from "react";
 
 export default function WithSubnavigation() {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   const { currentUser, signout } = useAuth();
-  const {
-    isOpen: isOpenModal,
-    onOpen: onOpenModal,
-    onClose: onCloseModal,
-  } = useDisclosure();
   const [searchVal, setSearchVal] = useState("");
+  const { getTrackIDFromSearch } = useSpotifyAPI();
+  const navigate = useNavigate();
+
+  async function handleSearch() {
+    const id = await getTrackIDFromSearch(searchVal);
+    navigate(`/song/${id}`);
+  }
 
   return (
-    <>
-      <Modal isOpen={isOpenModal} onClose={onCloseModal} isCentered size="7xl">
-        <ModalOverlay />
-        <ModalContent bgColor="gray.900">
-          <Song track_name={searchVal} />
-        </ModalContent>
-      </Modal>
-      <Box>
+    <Box>
+      <Flex
+        bg={useColorModeValue("white", "gray.800")}
+        color={useColorModeValue("gray.600", "white")}
+        minH={"60px"}
+        py={{ base: 2 }}
+        px={{ base: 4 }}
+        borderBottom={1}
+        borderStyle={"solid"}
+        borderColor={useColorModeValue("gray.200", "gray.900")}
+        align={"center"}
+      >
         <Flex
-          bg={useColorModeValue("white", "gray.800")}
-          color={useColorModeValue("gray.600", "white")}
-          minH={"60px"}
-          py={{ base: 2 }}
-          px={{ base: 4 }}
-          borderBottom={1}
-          borderStyle={"solid"}
-          borderColor={useColorModeValue("gray.200", "gray.900")}
-          align={"center"}
+          flex={{ base: 1, md: 2 }}
+          ml={{ base: -2 }}
+          display={{ base: "flex", md: "none" }}
         >
-          <Flex
-            flex={{ base: 1, md: 2 }}
-            ml={{ base: -2 }}
-            display={{ base: "flex", md: "none" }}
-          >
-            <IconButton
-              onClick={onToggle}
-              icon={
-                isOpen ? (
-                  <CloseIcon w={3} h={3} />
-                ) : (
-                  <HamburgerIcon w={5} h={5} />
-                )
-              }
-              variant={"ghost"}
-              aria-label={"Toggle Navigation"}
-            />
-          </Flex>
-
-          <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-            <Text
-              textAlign={useBreakpointValue({ base: "center", md: "left" })}
-              fontFamily={"heading"}
-              color={useColorModeValue("gray.800", "white")}
-            >
-              <Link as={RouterLink} to="/">
-                MyMusicList
-              </Link>
-            </Text>
-
-            <Flex display={{ base: "none", md: "flex" }} ml={10}>
-              <DesktopNav />
-            </Flex>
-          </Flex>
-
-          <Stack direction="row" spacing={1} mr={10}>
-            <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<SearchIcon />}
-              />
-              <Input
-                size="md"
-                id="input"
-                onChange={e => setSearchVal(e.target.value)}
-                placeholder="Search"
-                width={["1em", "10em", "20em"]}
-                left
-              />
-            </InputGroup>
-            <Button colorScheme="teal" onClick={onOpenModal}>
-              Search
-            </Button>
-          </Stack>
-
-          <Stack
-            flex={{ base: 1, md: 0 }}
-            justify={"flex-end"}
-            direction={"col"}
-            spacing={6}
-          >
-            <ButtonGroup>
-              {currentUser ? (
-                <>
-                  <Popover placement="bottom-start">
-                    <PopoverTrigger>
-                      <Avatar
-                        src={currentUser.photoURL}
-                        name={currentUser.displayName}
-                        cursor="pointer"
-                        size="md"
-                      />
-                    </PopoverTrigger>
-                    <Portal>
-                      <PopoverContent>
-                        <PopoverArrow />
-                        <SocialProfileWithImage />
-                      </PopoverContent>
-                    </Portal>
-                  </Popover>
-                  <IconButton
-                    icon={<GoSignOut />}
-                    onClick={async () => {
-                      await signout();
-                    }}
-                  />
-                </>
-              ) : (
-                <>
-                  <Button
-                    as={RouterLink}
-                    to="/login"
-                    display={{ base: "none", md: "inline-flex" }}
-                    colorScheme={"orange"}
-                    fontSize={"sm"}
-                    fontWeight={600}
-                    leftIcon={<FiLogIn />}
-                  >
-                    Sign In
-                  </Button>
-
-                  <Button
-                    as={RouterLink}
-                    to="/signup"
-                    display={{ base: "none", md: "inline-flex" }}
-                    colorScheme={"pink"}
-                    fontSize={"sm"}
-                    fontWeight={600}
-                    href={"#"}
-                  >
-                    Sign Up
-                  </Button>
-                </>
-              )}
-              <IconButton
-                icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
-                onClick={toggleColorMode}
-              />
-            </ButtonGroup>
-            )
-          </Stack>
+          <IconButton
+            onClick={onToggle}
+            icon={
+              isOpen ? <CloseIcon w={3} h={3} /> : <HamburgerIcon w={5} h={5} />
+            }
+            variant={"ghost"}
+            aria-label={"Toggle Navigation"}
+          />
         </Flex>
 
-        <Collapse in={isOpen} animateOpacity>
-          <MobileNav />
-        </Collapse>
-      </Box>
-    </>
+        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
+          <Text
+            textAlign={useBreakpointValue({ base: "center", md: "left" })}
+            fontFamily={"heading"}
+            color={useColorModeValue("gray.800", "white")}
+          >
+            <Link as={RouterLink} to="/">
+              MyMusicList
+            </Link>
+          </Text>
+
+          <Flex display={{ base: "none", md: "flex" }} ml={10}>
+            <DesktopNav />
+          </Flex>
+        </Flex>
+
+        <Stack direction="row" spacing={1} mr={10}>
+          <InputGroup>
+            <InputLeftElement pointerEvents="none" children={<SearchIcon />} />
+            <Input
+              size="md"
+              id="input"
+              onChange={e => setSearchVal(e.target.value)}
+              placeholder="Search"
+              width={["1em", "10em", "20em"]}
+              left
+            />
+          </InputGroup>
+          <Button colorScheme="teal" onClick={handleSearch}>
+            Search
+          </Button>
+        </Stack>
+
+        <Stack
+          flex={{ base: 1, md: 0 }}
+          justify={"flex-end"}
+          direction={"col"}
+          spacing={6}
+        >
+          <ButtonGroup>
+            {currentUser ? (
+              <>
+                <Popover placement="bottom-start">
+                  <PopoverTrigger>
+                    <Avatar
+                      src={currentUser.photoURL}
+                      name={currentUser.displayName}
+                      cursor="pointer"
+                      size="md"
+                    />
+                  </PopoverTrigger>
+                  <Portal>
+                    <PopoverContent>
+                      <PopoverArrow />
+                      <SocialProfileWithImage />
+                    </PopoverContent>
+                  </Portal>
+                </Popover>
+                <IconButton
+                  icon={<GoSignOut />}
+                  onClick={async () => {
+                    await signout();
+                  }}
+                />
+              </>
+            ) : (
+              <>
+                <Button
+                  as={RouterLink}
+                  to="/login"
+                  display={{ base: "none", md: "inline-flex" }}
+                  colorScheme={"orange"}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  leftIcon={<FiLogIn />}
+                >
+                  Sign In
+                </Button>
+
+                <Button
+                  as={RouterLink}
+                  to="/signup"
+                  display={{ base: "none", md: "inline-flex" }}
+                  colorScheme={"pink"}
+                  fontSize={"sm"}
+                  fontWeight={600}
+                  href={"#"}
+                >
+                  Sign Up
+                </Button>
+              </>
+            )}
+            <IconButton
+              icon={colorMode === "light" ? <MoonIcon /> : <SunIcon />}
+              onClick={toggleColorMode}
+            />
+          </ButtonGroup>
+          )
+        </Stack>
+      </Flex>
+
+      <Collapse in={isOpen} animateOpacity>
+        <MobileNav />
+      </Collapse>
+    </Box>
   );
 }
 
