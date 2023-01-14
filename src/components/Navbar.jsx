@@ -52,6 +52,9 @@ export default function WithSubnavigation() {
   const navigate = useNavigate();
 
   async function handleSearch() {
+    if (!searchVal) {
+      return;
+    }
     const id = await getTrackIDFromSearch(searchVal);
     navigate(`/song/${id}`);
   }
