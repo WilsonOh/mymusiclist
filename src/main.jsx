@@ -4,7 +4,7 @@ import ReactDOM from "react-dom/client";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import theme from "./theme";
 import AuthProvider from "./contexts/AuthContext";
-import SpotifyAPIContext from "./contexts/SpotifyAPIContext";
+import SpotifyAPIProvider from "./contexts/SpotifyAPIContext";
 import App from "./App";
 import Navbar from "./components/Navbar";
 const About = lazy(() => import("./components/About"));
@@ -15,8 +15,8 @@ const Song = lazy(() => import("./components/Song"));
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <AuthProvider>
-      <SpotifyAPIContext>
+    <SpotifyAPIProvider>
+      <AuthProvider>
         <ChakraProvider theme={theme}>
           <BrowserRouter>
             <Navbar />
@@ -32,7 +32,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             </Suspense>
           </BrowserRouter>
         </ChakraProvider>
-      </SpotifyAPIContext>
-    </AuthProvider>
+      </AuthProvider>
+    </SpotifyAPIProvider>
   </React.StrictMode>
 );

@@ -59,7 +59,7 @@ export default function Song() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
   return (
-    <Container maxW={{ base: "2xl", md: "4xl", lg: "7xl" }}>
+    <Container maxW="7xl">
       <SimpleGrid
         columns={{ base: 1, lg: 2 }}
         spacing={{ base: 8, md: 10 }}
@@ -88,6 +88,7 @@ export default function Song() {
               // color={useColorModeValue("gray.900", "gray.400")}
               fontWeight={300}
               fontSize={"2xl"}
+              as="div"
             >
               {track ? (
                 track["artists"].map(artist => artist["name"]).join(", ")
