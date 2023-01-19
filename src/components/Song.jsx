@@ -66,14 +66,33 @@ export default function Song() {
         py={{ base: 18, md: 24 }}
       >
         <Flex alignItems={"center"} zIndex={"1"}>
-          <Image
-            rounded={"md"}
-            alt={"song image"}
-            src={track && track["image"][0]["url"]}
-            fit="contain"
-            w="100%"
-            h={{ base: "100%", sm: "600px", lg: "600px" }}
-          />
+          <Box
+            rounded={"lg"}
+            mt={-12}
+            pos={"relative"}
+            height={"600px"}
+            _after={{
+              transition: "all .3s ease",
+              content: '""',
+              w: "full",
+              h: "full",
+              pos: "absolute",
+              top: 0,
+              left: 0,
+              backgroundImage: `url("https://upload.wikimedia.org/wikipedia/en/1/12/21_Savage_-_Issa_Album.png")`,
+              filter: "blur(15px)",
+              zIndex: -1,
+            }}
+          >
+            <Image
+              rounded={"md"}
+              alt={"song image"}
+              src={track && track["image"][0]["url"]}
+              fit="contain"
+              w="100%"
+              h={{ base: "100%", sm: "600px", lg: "600px" }}
+            />
+          </Box>
         </Flex>
         <Stack spacing={{ base: 6, md: 10 }}>
           <Box as={"header"}>
