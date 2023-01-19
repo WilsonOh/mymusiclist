@@ -372,9 +372,9 @@ const NAV_ITEMS = [
     label: "MyList",
     children: [
       {
-        label: "Job Board",
-        subLabel: "Find your dream design job",
-        href: "#",
+        label: "My List",
+        subLabel: "Rate and organise songs in your list!",
+        href: "/user/mylist",
       },
       {
         label: "Freelance Projects",

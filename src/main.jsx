@@ -7,6 +7,7 @@ import AuthProvider from "./contexts/AuthContext";
 import SpotifyAPIProvider from "./contexts/SpotifyAPIContext";
 import App from "./App";
 import Navbar from "./components/Navbar";
+import MyList from "./components/MyList";
 const About = lazy(() => import("./components/About"));
 const Counter = lazy(() => import("./components/Counter"));
 const Login = lazy(() => import("./components/Login"));
@@ -23,6 +24,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Suspense fallback={<Spinner />}>
               <Routes>
                 <Route path="/" element={<App />}></Route>
+                <Route path="/user/mylist" element={<MyList />}></Route>
                 <Route path="/song/:id" element={<Song />}></Route>
                 <Route path="/about" element={<About />}></Route>
                 <Route path="/counter" element={<Counter />}></Route>
