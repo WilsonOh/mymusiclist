@@ -9,7 +9,11 @@ import "slick-carousel/slick/slick-theme.css";
 import "../App.css";
 const SimpleCard = lazy(() => import("./SimpleCard"));
 
-export default function CaptionCarousel() {
+export default function CaptionCarousel(data) {
+  const track_data = data;
+  track_data;
+  //This is just to remove error
+
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = useState(null);

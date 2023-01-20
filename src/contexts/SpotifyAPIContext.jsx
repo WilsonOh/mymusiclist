@@ -98,10 +98,39 @@ export default function SpotifyAPIProvider({ children }) {
     return ret;
   }
 
+  async function getFeaturedPlaylist(index) {
+    const api_url = `https://api.spotify.com/v1/browse/featured-playlists`;
+    const query = new URLSearchParams();
+    query.append("country", "US");
+    query.append("limit", 5);
+    const headers = new Headers();
+    headers.append("Authorization", `Bearer ${token}`);
+    const res = await fetch(`${api_url}?${query}`, {
+      headers: headers,
+    });
+    const res_json = await res.json();
+    const playlist_name = {
+      featured_name: res_json["message"],
+      playlist_description:
+        res_json["playlists"]["items"][index]["description"],
+    };
+
+    const tracks = await fetch(
+      res_json["playlists"]["items"][index]["tracks"]["href"],
+      {
+        headers: headers,
+      }
+    );
+    const tracks_json = await tracks.json();
+    const ret = tracks_json["items"].map(x => x["track"]);
+    return [playlist_name, ret];
+  }
+
   const value = {
     getTrackFromSearch,
     getTrackFromID,
     getTrackIDFromSearch,
+    getFeaturedPlaylist,
   };
   return (
     <SpotifyAPIContext.Provider value={value}>

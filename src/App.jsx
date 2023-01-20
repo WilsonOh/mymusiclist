@@ -1,10 +1,30 @@
 import "./App.css";
-import { Suspense } from "react";
+import { Suspense, useEffect, useState } from "react";
 import { Box, Heading, Spinner, Stack, StackDivider } from "@chakra-ui/react";
 import MainCarousel from "./components/MainCarousel";
 import AsNavFor from "./components/AsNavForCarousel";
+import { useSpotifyAPI } from "./contexts/SpotifyAPIContext";
 
 const App = () => {
+  const [playlist1, setPlaylist1] = useState(null);
+  const [isLoading, setLoading] = useState(true);
+  const { getFeaturedPlaylist } = useSpotifyAPI();
+
+  useEffect(() => {
+    getFeaturedPlaylist(0).then(setPlaylist1).then(setLoading(false));
+  }, [getFeaturedPlaylist]);
+
+  console.log(playlist1);
+
+  // async function handlePlaylists() {
+  //   const featured1 = await getFeaturedPlaylist(0);
+  //   const feature2 = await getFeaturedPlaylist(1);
+  //   return [featured1, feature2];
+  // }
+  // const results = handlePlaylists();
+  if (isLoading) {
+    return <Box>Hi</Box>;
+  }
   return (
     <Box>
       <Stack divider={<StackDivider />}>
@@ -15,7 +35,7 @@ const App = () => {
           Heading 1
         </Heading>
         <Suspense fallback={<Spinner />}>
-          <MainCarousel />
+          <MainCarousel data={playlist1} />
         </Suspense>
       </Stack>
       <Stack divider={<StackDivider />}>
