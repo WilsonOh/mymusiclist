@@ -1,26 +1,15 @@
 import "./App.css";
-import { useEffect, useState } from "react";
 import { Box, Center, Spinner, Stack, StackDivider } from "@chakra-ui/react";
 import MainCarousel from "./components/MainCarousel";
 import AsNavFor from "./components/AsNavForCarousel";
 import { useSpotifyAPI } from "./contexts/SpotifyAPIContext";
 
 const App = () => {
-  const { getFeaturedPlaylists } = useSpotifyAPI();
-  const [playlists, setPlaylists] = useState([]);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    getFeaturedPlaylists().then(res => {
-      setPlaylists(res);
-      setLoading(false);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  const { playlists } = useSpotifyAPI();
 
   return (
     <>
-      {loading ? (
+      {playlists.length === 0 ? (
         <Spinner />
       ) : (
         <Box>

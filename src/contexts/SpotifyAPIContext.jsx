@@ -9,6 +9,7 @@ export function useSpotifyAPI() {
 
 export default function SpotifyAPIProvider({ children }) {
   const [token, setToken] = useState();
+  const [playlists, setPlaylists] = useState([]);
 
   useEffect(() => {
     async function get_token() {
@@ -29,9 +30,13 @@ export default function SpotifyAPIProvider({ children }) {
         body: data.toString(),
       });
       const res_json = await res.json();
-      setToken(res_json["access_token"]);
+      const access_token = res_json["access_token"];
+      setToken(access_token);
+      const featured_playlists = await getFeaturedPlaylists(access_token);
+      setPlaylists(featured_playlists);
     }
     get_token();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getTrackIDFromSearch(searchVal) {
@@ -99,27 +104,7 @@ export default function SpotifyAPIProvider({ children }) {
     return ret;
   }
 
-  async function getPlaylist(playlist_id) {
-    // I had to do this cancer code duplication because `token` is somehow
-    // undefined when this function is called so I have to make sure token
-    // is set before calling the api
-    const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-    const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
-    const CLIENT_CRED = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
-      "base64"
-    );
-    const url = "https://accounts.spotify.com/api/token";
-    let data = new URLSearchParams();
-    data.append("grant_type", "client_credentials");
-    const token_res = await fetch(url, {
-      method: "post",
-      headers: {
-        Authorization: `Basic ${CLIENT_CRED}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: data.toString(),
-    });
-    const curr_token = (await token_res.json())["access_token"];
+  async function getPlaylist(playlist_id, curr_token) {
     const api_url = `https://api.spotify.com/v1/playlists/${playlist_id}`;
     const res = await fetch(api_url, {
       headers: {
@@ -130,24 +115,7 @@ export default function SpotifyAPIProvider({ children }) {
     return await res.json();
   }
 
-  async function getFeaturedPlaylists() {
-    const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
-    const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
-    const CLIENT_CRED = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
-      "base64"
-    );
-    const url = "https://accounts.spotify.com/api/token";
-    let data = new URLSearchParams();
-    data.append("grant_type", "client_credentials");
-    const token_res = await fetch(url, {
-      method: "post",
-      headers: {
-        Authorization: `Basic ${CLIENT_CRED}`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: data.toString(),
-    });
-    const curr_token = (await token_res.json())["access_token"];
+  async function getFeaturedPlaylists(curr_token) {
     const api_url = `https://api.spotify.com/v1/browse/featured-playlists`;
     const query = new URLSearchParams();
     query.append("country", "US");
@@ -161,11 +129,14 @@ export default function SpotifyAPIProvider({ children }) {
     });
     const res_json = await res.json();
     let playlists = res_json["playlists"]["items"];
-    playlists = await Promise.all(playlists.map(({ id }) => getPlaylist(id)));
+    playlists = await Promise.all(
+      playlists.map(({ id }) => getPlaylist(id, curr_token))
+    );
     return playlists;
   }
 
   const value = {
+    playlists,
     getTrackFromSearch,
     getTrackFromID,
     getTrackIDFromSearch,
