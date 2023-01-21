@@ -9,6 +9,7 @@ export function useSpotifyAPI() {
 
 export default function SpotifyAPIProvider({ children }) {
   const [token, setToken] = useState();
+
   useEffect(() => {
     async function get_token() {
       const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
@@ -98,39 +99,40 @@ export default function SpotifyAPIProvider({ children }) {
     return ret;
   }
 
-  async function getFeaturedPlaylist(index) {
+  async function getPlaylist(playlist_id) {
+    const api_url = `https://api.spotify.com/v1/playlists/${playlist_id}`;
+    const res = await fetch(api_url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return await res.json();
+  }
+
+  async function getFeaturedPlaylists() {
     const api_url = `https://api.spotify.com/v1/browse/featured-playlists`;
     const query = new URLSearchParams();
     query.append("country", "US");
     query.append("limit", 5);
-    const headers = new Headers();
-    headers.append("Authorization", `Bearer ${token}`);
+    const headers = {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
+    };
     const res = await fetch(`${api_url}?${query}`, {
       headers: headers,
     });
     const res_json = await res.json();
-    const playlist_name = {
-      featured_name: res_json["message"],
-      playlist_description:
-        res_json["playlists"]["items"][index]["description"],
-    };
-
-    const tracks = await fetch(
-      res_json["playlists"]["items"][index]["tracks"]["href"],
-      {
-        headers: headers,
-      }
-    );
-    const tracks_json = await tracks.json();
-    const ret = tracks_json["items"].map(x => x["track"]);
-    return [playlist_name, ret];
+    let playlists = res_json["playlists"]["items"];
+    playlists = await Promise.all(playlists.map(({ id }) => getPlaylist(id)));
+    return playlists;
   }
 
   const value = {
     getTrackFromSearch,
     getTrackFromID,
     getTrackIDFromSearch,
-    getFeaturedPlaylist,
+    getFeaturedPlaylists,
   };
   return (
     <SpotifyAPIContext.Provider value={value}>

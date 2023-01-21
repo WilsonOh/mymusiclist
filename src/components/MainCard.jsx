@@ -5,7 +5,6 @@ import {
   Heading,
   Text,
   Stack,
-  Avatar,
   useColorModeValue,
 } from "@chakra-ui/react";
 
@@ -43,13 +42,6 @@ export default function MainCard(props) {
           >
             Album
           </Heading>
-        </Stack>
-        <Stack mt={6} spacing={4} align={"center"}>
-          <Avatar
-            src={"https://avatars0.githubusercontent.com/u/1164541?v=4"}
-            alt={"Author"}
-            size={"lg"}
-          />
         </Stack>
       </Box>
     </Center>
