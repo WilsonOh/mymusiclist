@@ -100,10 +100,30 @@ export default function SpotifyAPIProvider({ children }) {
   }
 
   async function getPlaylist(playlist_id) {
+    // I had to do this cancer code duplication because `token` is somehow
+    // undefined when this function is called so I have to make sure token
+    // is set before calling the api
+    const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+    const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
+    const CLIENT_CRED = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
+      "base64"
+    );
+    const url = "https://accounts.spotify.com/api/token";
+    let data = new URLSearchParams();
+    data.append("grant_type", "client_credentials");
+    const token_res = await fetch(url, {
+      method: "post",
+      headers: {
+        Authorization: `Basic ${CLIENT_CRED}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: data.toString(),
+    });
+    const curr_token = (await token_res.json())["access_token"];
     const api_url = `https://api.spotify.com/v1/playlists/${playlist_id}`;
     const res = await fetch(api_url, {
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${curr_token}`,
         "Content-Type": "application/json",
       },
     });
@@ -111,12 +131,29 @@ export default function SpotifyAPIProvider({ children }) {
   }
 
   async function getFeaturedPlaylists() {
+    const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
+    const CLIENT_SECRET = import.meta.env.VITE_SPOTIFY_CLIENT_SECRET;
+    const CLIENT_CRED = Buffer.from(`${CLIENT_ID}:${CLIENT_SECRET}`).toString(
+      "base64"
+    );
+    const url = "https://accounts.spotify.com/api/token";
+    let data = new URLSearchParams();
+    data.append("grant_type", "client_credentials");
+    const token_res = await fetch(url, {
+      method: "post",
+      headers: {
+        Authorization: `Basic ${CLIENT_CRED}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: data.toString(),
+    });
+    const curr_token = (await token_res.json())["access_token"];
     const api_url = `https://api.spotify.com/v1/browse/featured-playlists`;
     const query = new URLSearchParams();
     query.append("country", "US");
     query.append("limit", 5);
     const headers = {
-      Authorization: `Bearer ${token}`,
+      Authorization: `Bearer ${curr_token}`,
       "Content-Type": "application/json",
     };
     const res = await fetch(`${api_url}?${query}`, {
