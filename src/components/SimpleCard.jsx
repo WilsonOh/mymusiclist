@@ -10,9 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
 
-export default function ProductSimple(props) {
-  const { name, img, id } = props;
-  const IMAGE = img;
+export default function ProductSimple({ name, img, id }) {
   return (
     <Link to={`/song/${id}`}>
       <Center py={12} mt={6} mx={1}>
@@ -40,7 +38,7 @@ export default function ProductSimple(props) {
               pos: "absolute",
               top: 5,
               left: 0,
-              backgroundImage: `url(${IMAGE})`,
+              // backgroundImage: `url(${IMAGE})`,
               filter: "blur(15px)",
               zIndex: -1,
             }}
@@ -55,7 +53,7 @@ export default function ProductSimple(props) {
               height={230}
               width={282}
               objectFit={"cover"}
-              src={IMAGE}
+              src={img}
               fallback={<Spinner />}
               loading="lazy"
             />

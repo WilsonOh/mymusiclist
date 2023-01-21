@@ -7,6 +7,8 @@ import { useSpotifyAPI } from "./contexts/SpotifyAPIContext";
 const App = () => {
   const { playlists } = useSpotifyAPI();
 
+  const PLAYLIST_LIMIT = 10;
+
   return (
     <>
       {playlists.length === 0 ? (
@@ -15,15 +17,15 @@ const App = () => {
         <Box>
           {
             <Stack divider={<StackDivider />}>
-              <AsNavFor playlist={playlists[0]} />
+              <AsNavFor playlist={playlists[0]} limit={PLAYLIST_LIMIT} />
             </Stack>
           }
-          {playlists.slice(1).map(playlist => (
+          {playlists.map(playlist => (
             <Stack divider={<StackDivider />} key={playlist["id"]}>
               <Center fontSize={"3xl"} ml={5} mt={10}>
                 {playlist["name"]}
               </Center>
-              <MainCarousel playlist={playlist} />
+              <MainCarousel playlist={playlist} limit={PLAYLIST_LIMIT} />
             </Stack>
           ))}
         </Box>

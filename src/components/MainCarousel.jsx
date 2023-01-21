@@ -9,7 +9,7 @@ import "slick-carousel/slick/slick.css";
 import "../App.css";
 const SimpleCard = lazy(() => import("./SimpleCard"));
 
-export default function MainCarousel({ playlist }) {
+export default function MainCarousel({ playlist, limit }) {
   // As we have used custom buttons, we need a reference variable to
   // change the state
   const [slider, setSlider] = useState(null);
@@ -61,7 +61,7 @@ export default function MainCarousel({ playlist }) {
         <BiRightArrowAlt size="40px" />
       </IconButton>
       <Slider {...settings} ref={slider => setSlider(slider)}>
-        {playlist["tracks"]["items"].map(({ track }) => (
+        {playlist["tracks"]["items"].slice(0, limit).map(({ track }) => (
           <SimpleCard
             name={track["name"]}
             img={track["album"]["images"][0]["url"]}

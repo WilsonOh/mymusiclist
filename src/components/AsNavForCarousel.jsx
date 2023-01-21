@@ -11,7 +11,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import "../App.css";
 
-export default function AsNavFor({ playlist }) {
+export default function AsNavFor({ playlist, limit }) {
   const [slider1, setSlider1] = useState(null);
   const [slider2, setSlider2] = useState(null);
 
@@ -45,7 +45,7 @@ export default function AsNavFor({ playlist }) {
           asNavFor={slider2}
           ref={slider1 => setSlider1(slider1)}
         >
-          {playlist["tracks"]["items"].map(({ track }) => (
+          {playlist["tracks"]["items"].slice(0, limit).map(({ track }) => (
             <MainCard
               name={track.name}
               img={track["album"]["images"][0]["url"]}
@@ -86,7 +86,7 @@ export default function AsNavFor({ playlist }) {
           asNavFor={slider1}
           ref={slider2 => setSlider2(slider2)}
         >
-          {playlist["tracks"]["items"].map(({ track }) => (
+          {playlist["tracks"]["items"].slice(0, limit).map(({ track }) => (
             <SimpleCard
               name={track.name}
               img={track["album"]["images"][0]["url"]}
