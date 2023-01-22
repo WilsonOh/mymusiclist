@@ -1,7 +1,15 @@
 import React, { useState } from "react";
 import Slider from "react-slick";
 import SimpleCard from "./SimpleCard";
-import { Box, IconButton, useBreakpointValue } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  IconButton,
+  Link,
+  Stack,
+  StackDivider,
+  useBreakpointValue,
+} from "@chakra-ui/react";
 import {
   BsFillArrowLeftSquareFill,
   BsFillArrowRightSquareFill,
@@ -38,7 +46,20 @@ export default function AsNavFor({ playlist, limit }) {
   };
 
   return (
-    <Box height={"1500px"} overflow={"hidden"}>
+    <Box height={"1575px"} overflow={"hidden"}>
+      <Stack divider={<StackDivider />}>
+        <Center fontSize={"3xl"} mt={5} height={"75px"}>
+          <Link
+            href={playlist["external_urls"]["spotify"]}
+            fontStyle={"italic"}
+            fontWeight={"bold"}
+          >
+            {playlist["name"]}
+          </Link>
+        </Center>
+        <Stack></Stack>
+      </Stack>
+
       <Box height={"940px"}>
         <Slider
           {...settings1}

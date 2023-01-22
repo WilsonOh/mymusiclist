@@ -94,7 +94,7 @@ export default function Song() {
             />
           </Box>
         </Flex>
-        <Stack spacing={{ base: 6, md: 10 }}>
+        <Stack spacing={{ base: 6, md: 10 }} textAlign={"center"}>
           <Box as={"header"}>
             <Heading
               lineHeight={1.1}
