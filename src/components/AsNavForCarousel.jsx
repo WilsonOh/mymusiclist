@@ -46,7 +46,7 @@ export default function AsNavFor({ playlist, limit }) {
   };
 
   return (
-    <Box height={"1575px"} overflow={"hidden"}>
+    <Box height={"1600px"} overflow={"hidden"}>
       <Stack divider={<StackDivider />}>
         <Center fontSize={"3xl"} mt={5} height={"75px"}>
           <Link
