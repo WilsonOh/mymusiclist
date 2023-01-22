@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react";
 
 export default function MainCard(props) {
-  const { name, img } = props;
+  const { name, img, album, album_type } = props;
   return (
     <Center py={6}>
       <Box
@@ -22,25 +22,39 @@ export default function MainCard(props) {
         overflow={"hidden"}
         height={"900px"}
       >
-        <Box h={"700px"} bg={"gray.100"} mt={-6} mx={-6} mb={6}>
+        <Box h={"775px"} bg={"gray.100"} mt={-6} mx={-6}>
           <Image src={img} fit={"cover"} height={"100%"} w={"100%"} />
         </Box>
-        <Stack>
-          <Text
-            color={"green.500"}
-            textTransform={"uppercase"}
-            fontWeight={800}
-            fontSize={"sm"}
-            letterSpacing={1.1}
-          >
-            {name}
-          </Text>
+        <Stack display={"flex"} h={"125"} justifyContent={"center"}>
+          {album_type === "single" ? (
+            <Text
+              color={"green.500"}
+              textTransform={"uppercase"}
+              fontWeight={800}
+              fontSize={"sm"}
+              letterSpacing={1.1}
+            >
+              Single
+            </Text>
+          ) : (
+            <Text
+              color={"green.500"}
+              textTransform={"uppercase"}
+              fontWeight={800}
+              fontSize={"sm"}
+              letterSpacing={1.1}
+            >
+              Album : {album}
+            </Text>
+          )}
+
           <Heading
             color={useColorModeValue("gray.700", "white")}
             fontSize={"2xl"}
             fontFamily={"body"}
+            fontStyle
           >
-            Album
+            {name}
           </Heading>
         </Stack>
       </Box>

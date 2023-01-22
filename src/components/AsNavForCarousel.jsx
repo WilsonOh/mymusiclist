@@ -51,6 +51,8 @@ export default function AsNavFor({ playlist, limit }) {
               img={track["album"]["images"][0]["url"]}
               id={track.id}
               key={track.id}
+              album={track["album"]["name"]}
+              album_type={track["album"]["album_type"]}
             />
           ))}
         </Slider>
@@ -90,8 +92,10 @@ export default function AsNavFor({ playlist, limit }) {
             <SimpleCard
               name={track.name}
               img={track["album"]["images"][0]["url"]}
+              artist={track["artists"][0]["name"]}
               id={track.id}
               key={track.id}
+              popularity={track["popularity"]}
             />
           ))}
         </Slider>

@@ -65,8 +65,10 @@ export default function MainCarousel({ playlist, limit }) {
           <SimpleCard
             name={track["name"]}
             img={track["album"]["images"][0]["url"]}
+            artist={track["artists"][0]["name"]}
             id={track.id}
             key={track.id}
+            popularity={track["popularity"]}
           />
         ))}
       </Slider>
