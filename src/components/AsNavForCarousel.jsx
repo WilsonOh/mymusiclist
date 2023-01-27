@@ -37,7 +37,13 @@ export default function AsNavFor({ playlist, limit }) {
     centerMode: true,
     infinite: true,
     centerPadding: "60px",
-    slidesToShow: 7,
+    slidesToShow: useBreakpointValue({
+      base: 1,
+      md: 2,
+      lg: 4,
+      xl: 4,
+      "2xl": 8,
+    }),
     swipeToSlide: true,
     speed: 500,
     autoplay: true,
@@ -66,16 +72,19 @@ export default function AsNavFor({ playlist, limit }) {
           asNavFor={slider2}
           ref={slider1 => setSlider1(slider1)}
         >
-          {playlist["tracks"]["items"].slice(0, limit).map(({ track }) => (
-            <MainCard
-              name={track.name}
-              img={track["album"]["images"][0]["url"]}
-              id={track.id}
-              key={track.id}
-              album={track["album"]["name"]}
-              album_type={track["album"]["album_type"]}
-            />
-          ))}
+          {playlist["tracks"]["items"]
+            .filter(({ track }) => track != null)
+            .slice(0, limit)
+            .map(({ track }) => (
+              <MainCard
+                name={track.name}
+                img={track["album"]["images"][0]["url"]}
+                id={track.id}
+                key={track.id}
+                album={track["album"]["name"]}
+                album_type={track["album"]["album_type"]}
+              />
+            ))}
         </Slider>
       </Box>
       <Box position={"relative"} height={"560px"} mt={"10px"}>

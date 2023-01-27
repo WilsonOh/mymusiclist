@@ -28,7 +28,13 @@ export default function MainCarousel({ playlist, limit }) {
     speed: 500,
     className: "small_carousel",
     autoplaySpeed: 5000,
-    slidesToShow: useBreakpointValue({ base: 1, md: 4, lg: 8 }),
+    slidesToShow: useBreakpointValue({
+      base: 1,
+      md: 2,
+      lg: 4,
+      xl: 4,
+      "2xl": 8,
+    }),
     slidesToScroll: 2,
   };
 
@@ -61,16 +67,19 @@ export default function MainCarousel({ playlist, limit }) {
         <BiRightArrowAlt size="40px" />
       </IconButton>
       <Slider {...settings} ref={slider => setSlider(slider)}>
-        {playlist["tracks"]["items"].slice(0, limit).map(({ track }) => (
-          <SimpleCard
-            name={track["name"]}
-            img={track["album"]["images"][0]["url"]}
-            artist={track["artists"][0]["name"]}
-            id={track.id}
-            key={track.id}
-            popularity={track["popularity"]}
-          />
-        ))}
+        {playlist["tracks"]["items"]
+          .filter(({ track }) => track != null)
+          .slice(0, limit)
+          .map(({ track }) => (
+            <SimpleCard
+              name={track["name"]}
+              img={track["album"]["images"][0]["url"]}
+              artist={track["artists"][0]["name"]}
+              id={track.id}
+              key={track.id}
+              popularity={track["popularity"]}
+            />
+          ))}
       </Slider>
     </Box>
   );
