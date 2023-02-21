@@ -97,7 +97,11 @@ export default function ProductSimple({ name, img, id, artist, popularity }) {
               {artist}
             </Text>
             <Heading
-              fontSize={"2xl"}
+              fontSize={{
+                sm: "sm",
+                md: "md",
+                xl: "xl",
+              }}
               fontFamily={"body"}
               fontWeight={500}
               h={"60px"}
