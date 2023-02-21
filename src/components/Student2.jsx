@@ -12,7 +12,7 @@ import {
   useColorModeValue,
   HStack,
 } from "@chakra-ui/react";
-import { FiGithub, FiLinkedin, FiInstagram } from "react-icons/fi";
+import { FiGithub, FiLinkedin, FiFileText } from "react-icons/fi";
 
 const Feature = ({ text, icon, iconBg, href }) => {
   return (
@@ -97,9 +97,9 @@ export default function SplitWithImage() {
               href={"https://github.com/WilsonOh"}
             />
             <Feature
-              icon={<Icon as={FiInstagram} color={"purple.500"} w={5} h={5} />}
+              icon={<Icon as={FiFileText} color={"purple.500"} w={5} h={5} />}
               iconBg={useColorModeValue("purple.100", "purple.900")}
-              text={"Instagram link"}
+              text={"Resume link"}
               href={"https://github.com/WilsonOh"}
             />
           </Stack>

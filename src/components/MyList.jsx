@@ -1,6 +1,7 @@
 import {
   Box,
   Center,
+  Flex,
   useColorModeValue,
   Heading,
   TableContainer,
@@ -70,16 +71,24 @@ const MyList = () => {
           <Box id="head"></Box>
         </Box>
       </Center>
-      <Box id="inspired">
-        <Heading
-          id="inspired"
-          color={useColorModeValue("gray.800", "white")}
-          as="ins"
-        >
-          My List
-        </Heading>
+      <Box id="inspired" justifyContent={"center"} alignItems={"center"}>
+        <Flex justifyContent={"center"} alignItems={"center"}>
+          {" "}
+          <Heading
+            id="inspired"
+            color={useColorModeValue("gray.800", "white")}
+            as="ins"
+          >
+            My List
+          </Heading>
+        </Flex>
       </Box>
-      <Box maxW={"70%"} alignContent={"center"} display={"flex"}>
+      <Flex justifyContent={"center"} my={"10"}>
+        <Heading color={"red"} size="3xl">
+          -----WORK IN PROGRESS-----
+        </Heading>
+      </Flex>
+      <Box maxW={"100%"} justifyContent={"center"} display={"flex"}>
         <TableContainer>
           <Table variant="simple" size="sm">
             <TableCaption>Imperial to metric conversion factors</TableCaption>

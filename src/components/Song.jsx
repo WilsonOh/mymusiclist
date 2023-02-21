@@ -133,6 +133,9 @@ export default function Song() {
             }
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
+              <Text fontSize={"lg"} color={"red"} fontWeight={"bold"}>
+                -----WORK IN PROGRESS-----
+              </Text>
               <Text
                 // color={useColorModeValue("gray.500", "gray.400")}
                 fontSize={"2xl"}

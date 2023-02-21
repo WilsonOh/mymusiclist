@@ -385,7 +385,7 @@ const NAV_ITEMS = [
   },
   {
     label: "Contact",
-    href: "#",
+    href: "/about",
   },
   {
     label: "About",
