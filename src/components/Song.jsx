@@ -94,7 +94,7 @@ export default function Song() {
             />
           </Box>
         </Flex>
-        <Stack spacing={{ base: 6, md: 10 }}>
+        <Stack spacing={{ base: 6, md: 10 }} textAlign={"center"}>
           <Box as={"header"}>
             <Heading
               lineHeight={1.1}
@@ -133,6 +133,9 @@ export default function Song() {
             }
           >
             <VStack spacing={{ base: 4, sm: 6 }}>
+              <Text fontSize={"lg"} color={"red"} fontWeight={"bold"}>
+                -----WORK IN PROGRESS-----
+              </Text>
               <Text
                 // color={useColorModeValue("gray.500", "gray.400")}
                 fontSize={"2xl"}

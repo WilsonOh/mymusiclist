@@ -12,7 +12,7 @@ import {
   useColorModeValue,
   HStack,
 } from "@chakra-ui/react";
-import { FiGithub, FiLinkedin, FiInstagram } from "react-icons/fi";
+import { FiGithub, FiLinkedin, FiFileText } from "react-icons/fi";
 
 const Feature = ({ text, icon, iconBg, href }) => {
   return (
@@ -67,14 +67,27 @@ export default function SplitWithImage() {
               alignSelf={"flex-start"}
               rounded={"md"}
             >
+              Auth
+            </Text>
+            <Text
+              textTransform={"uppercase"}
+              color={"blue.400"}
+              fontWeight={600}
+              fontSize={"sm"}
+              bg={useColorModeValue("blue.50", "blue.900")}
+              p={2}
+              alignSelf={"flex-start"}
+              rounded={"md"}
+            >
               Database
             </Text>
           </HStack>
 
           <Heading>Wilson</Heading>
           <Text color={"gray.500"} fontSize={"lg"}>
-            Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam
-            nonumy eirmod tempor invidunt ut labore
+            Second year Computer Engineering student at NUS. Enjoys learning
+            about new technologies and how they work. Currently looking for a
+            summer internship.
           </Text>
           <Stack
             spacing={4}
@@ -94,22 +107,24 @@ export default function SplitWithImage() {
               icon={<Icon as={FiLinkedin} color={"green.500"} w={5} h={5} />}
               iconBg={useColorModeValue("green.100", "green.900")}
               text={"Linkedin link"}
-              href={"https://github.com/WilsonOh"}
+              href={"https://www.linkedin.com/in/wilson-oh/"}
             />
             <Feature
-              icon={<Icon as={FiInstagram} color={"purple.500"} w={5} h={5} />}
+              icon={<Icon as={FiFileText} color={"purple.500"} w={5} h={5} />}
               iconBg={useColorModeValue("purple.100", "purple.900")}
-              text={"Instagram link"}
-              href={"https://github.com/WilsonOh"}
+              text={"Resume link"}
+              href={
+                "https://firebasestorage.googleapis.com/v0/b/mymusiclist-9d1d6.appspot.com/o/wilsonoh_resume.pdf?alt=media&token=04d0a688-5c92-4707-b085-dc151e476616"
+              }
             />
           </Stack>
         </Stack>
         <Flex>
           <Image
             rounded={"md"}
-            alt={"feature image"}
+            alt={"wilson oh profile picture"}
             src={
-              "https://images.unsplash.com/photo-1554200876-56c2f25224fa?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80"
+              "https://firebasestorage.googleapis.com/v0/b/mymusiclist-9d1d6.appspot.com/o/wilson_oh_profile.png?alt=media&token=15aa9f4e-d7e3-472c-acbb-31b456dc96d0"
             }
             objectFit={"cover"}
           />

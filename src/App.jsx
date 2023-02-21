@@ -1,36 +1,50 @@
 import "./App.css";
-import { Suspense } from "react";
-import { Box, Heading, Spinner, Stack, StackDivider } from "@chakra-ui/react";
+import {
+  Box,
+  Center,
+  Spinner,
+  Stack,
+  StackDivider,
+  Link,
+} from "@chakra-ui/react";
 import MainCarousel from "./components/MainCarousel";
 import AsNavFor from "./components/AsNavForCarousel";
+import { useSpotifyAPI } from "./contexts/SpotifyAPIContext";
 
 const App = () => {
+  const { playlists } = useSpotifyAPI();
+
+  const PLAYLIST_LIMIT_NAV = 10;
+  const PLAYLIST_LIMIT_MAIN = 15;
+
   return (
-    <Box>
-      <Stack divider={<StackDivider />}>
-        <AsNavFor />
-      </Stack>
-      <Stack divider={<StackDivider />}>
-        <Heading textAlign={"left"} ml={5} mt={10}>
-          Heading 1
-        </Heading>
-        <Suspense fallback={<Spinner />}>
-          <MainCarousel />
-        </Suspense>
-      </Stack>
-      <Stack divider={<StackDivider />}>
-        <Heading textAlign={"left"} ml={5}>
-          Heading 2
-        </Heading>
-        <MainCarousel />
-      </Stack>
-      <Stack divider={<StackDivider />}>
-        <Heading textAlign={"left"} ml={5}>
-          Heading 3
-        </Heading>
-        <MainCarousel />
-      </Stack>
-    </Box>
+    <>
+      {playlists.length === 0 ? (
+        <Spinner />
+      ) : (
+        <Box>
+          {
+            <Stack divider={<StackDivider />}>
+              <AsNavFor playlist={playlists[0]} limit={PLAYLIST_LIMIT_NAV} />
+            </Stack>
+          }
+          {playlists.slice(1).map(playlist => (
+            <Stack divider={<StackDivider />} key={playlist["id"]}>
+              <Center fontSize={"3xl"} ml={5} mt={10}>
+                <Link
+                  href={playlist["external_urls"]["spotify"]}
+                  fontStyle={"italic"}
+                  fontWeight={"bold"}
+                >
+                  {playlist["name"]}
+                </Link>
+              </Center>
+              <MainCarousel playlist={playlist} limit={PLAYLIST_LIMIT_MAIN} />
+            </Stack>
+          ))}
+        </Box>
+      )}
+    </>
   );
 };
 

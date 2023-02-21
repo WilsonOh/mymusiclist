@@ -9,6 +9,8 @@ export function useSpotifyAPI() {
 
 export default function SpotifyAPIProvider({ children }) {
   const [token, setToken] = useState();
+  const [playlists, setPlaylists] = useState([]);
+
   useEffect(() => {
     async function get_token() {
       const CLIENT_ID = import.meta.env.VITE_SPOTIFY_CLIENT_ID;
@@ -28,9 +30,13 @@ export default function SpotifyAPIProvider({ children }) {
         body: data.toString(),
       });
       const res_json = await res.json();
-      setToken(res_json["access_token"]);
+      const access_token = res_json["access_token"];
+      setToken(access_token);
+      const featured_playlists = await getFeaturedPlaylists(access_token);
+      setPlaylists(featured_playlists);
     }
     get_token();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function getTrackIDFromSearch(searchVal) {
@@ -98,10 +104,43 @@ export default function SpotifyAPIProvider({ children }) {
     return ret;
   }
 
+  async function getPlaylist(playlist_id, curr_token) {
+    const api_url = `https://api.spotify.com/v1/playlists/${playlist_id}`;
+    const res = await fetch(api_url, {
+      headers: {
+        Authorization: `Bearer ${curr_token}`,
+        "Content-Type": "application/json",
+      },
+    });
+    return await res.json();
+  }
+
+  async function getFeaturedPlaylists(curr_token) {
+    const api_url = `https://api.spotify.com/v1/browse/featured-playlists`;
+    const query = new URLSearchParams();
+    query.append("country", "US");
+    query.append("limit", 5);
+    const headers = {
+      Authorization: `Bearer ${curr_token}`,
+      "Content-Type": "application/json",
+    };
+    const res = await fetch(`${api_url}?${query}`, {
+      headers: headers,
+    });
+    const res_json = await res.json();
+    let playlists = res_json["playlists"]["items"];
+    playlists = await Promise.all(
+      playlists.map(({ id }) => getPlaylist(id, curr_token))
+    );
+    return playlists;
+  }
+
   const value = {
+    playlists,
     getTrackFromSearch,
     getTrackFromID,
     getTrackIDFromSearch,
+    getFeaturedPlaylists,
   };
   return (
     <SpotifyAPIContext.Provider value={value}>

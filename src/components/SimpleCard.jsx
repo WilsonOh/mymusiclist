@@ -9,10 +9,37 @@ import {
   Spinner,
 } from "@chakra-ui/react";
 import { Link } from "react-router-dom";
+import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 
-export default function ProductSimple(props) {
-  const { name, img, id } = props;
-  const IMAGE = img;
+function Rating({ rating, numReviews }) {
+  return (
+    <Box display="flex" alignItems="center" justifyContent={"center"}>
+      {Array(5)
+        .fill("")
+        .map((_, i) => {
+          const roundedRating = Math.round(rating * 2) / 2;
+          if (roundedRating - i >= 1) {
+            return (
+              <BsStarFill
+                key={i}
+                style={{ marginLeft: "1" }}
+                color={i < rating ? "teal.500" : "gray.300"}
+              />
+            );
+          }
+          if (roundedRating - i === 0.5) {
+            return <BsStarHalf key={i} style={{ marginLeft: "1" }} />;
+          }
+          return <BsStar key={i} style={{ marginLeft: "1" }} />;
+        })}
+      <Box as="span" ml="2" color="gray.600" fontSize="sm">
+        {numReviews} review{numReviews > 1 && "s"}
+      </Box>
+    </Box>
+  );
+}
+
+export default function ProductSimple({ name, img, id, artist, popularity }) {
   return (
     <Link to={`/song/${id}`}>
       <Center py={12} mt={6} mx={1}>
@@ -21,6 +48,7 @@ export default function ProductSimple(props) {
           p={6}
           maxW={"330px"}
           w={"full"}
+          h={"400"}
           bg={useColorModeValue("white", "gray.800")}
           boxShadow={"2xl"}
           rounded={"lg"}
@@ -40,7 +68,7 @@ export default function ProductSimple(props) {
               pos: "absolute",
               top: 5,
               left: 0,
-              backgroundImage: `url(${IMAGE})`,
+              // backgroundImage: `url(${IMAGE})`,
               filter: "blur(15px)",
               zIndex: -1,
             }}
@@ -55,7 +83,7 @@ export default function ProductSimple(props) {
               height={230}
               width={282}
               objectFit={"cover"}
-              src={IMAGE}
+              src={img}
               fallback={<Spinner />}
               loading="lazy"
             />
@@ -66,18 +94,25 @@ export default function ProductSimple(props) {
               fontSize={"sm"}
               textTransform={"uppercase"}
             >
-              Brand
+              {artist}
             </Text>
-            <Heading fontSize={"2xl"} fontFamily={"body"} fontWeight={500}>
+            <Heading
+              fontSize={{
+                sm: "sm",
+                md: "md",
+                xl: "xl",
+              }}
+              fontFamily={"body"}
+              fontWeight={500}
+              h={"60px"}
+            >
               {name}
             </Heading>
             <Stack direction={"row"} align={"center"}>
-              <Text fontWeight={800} fontSize={"xl"}>
-                $57
-              </Text>
-              <Text textDecoration={"line-through"} color={"gray.600"}>
-                $199
-              </Text>
+              <Rating
+                rating={(parseInt(popularity) / 100) * 5}
+                numReviews={200}
+              />
             </Stack>
           </Stack>
         </Box>

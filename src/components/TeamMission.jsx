@@ -101,38 +101,40 @@ const StatsText = ({ children }) => (
 
 const stats = [
   {
-    title: "10+",
+    title: "Spotify API",
     content: (
       <>
-        <StatsText>Software modules</StatsText> for detailed monitoring and
-        real-time analytics
+        Utilises <StatsText>Spotify Web API for developers</StatsText> to
+        provide curated playlists that populates the home page.
       </>
     ),
   },
   {
-    title: "24/7",
+    title: "Pair-programming",
     content: (
       <>
-        <StatsText>Analytics</StatsText> enabled right in your dashboard without
-        history limitations
+        Developed by only a small{" "}
+        <StatsText>team of 2 passionate students</StatsText> learning Frontend
+        development.
       </>
     ),
   },
   {
-    title: "13%",
+    title: "Easy-to-use",
     content: (
       <>
-        <StatsText>Farms</StatsText> in North America has chosen NewLife™ as
-        their management solution
+        <StatsText>MyMusicList</StatsText> aims to be convenient and accessible
+        for all to use.
       </>
     ),
   },
   {
-    title: "250M+",
+    title: "Work-in-progress",
     content: (
       <>
-        <StatsText>Plants</StatsText> currently connected and monitored by the
-        NewLife™ software
+        This website is still <StatsText>work-in-progress</StatsText> and in its{" "}
+        <StatsText>early development phase</StatsText> as we are busy with
+        school.
       </>
     ),
   },
