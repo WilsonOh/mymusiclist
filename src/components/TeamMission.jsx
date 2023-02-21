@@ -101,11 +101,11 @@ const StatsText = ({ children }) => (
 
 const stats = [
   {
-    title: "Spotify api",
+    title: "Spotify API",
     content: (
       <>
-        <StatsText>Spotify web developers API</StatsText> provide curated
-        popular playlists that makes up the home page.
+        Utilises <StatsText>Spotify Web API for developers</StatsText> to
+        provide curated playlists that populates the home page.
       </>
     ),
   },
