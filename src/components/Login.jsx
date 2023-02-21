@@ -174,17 +174,19 @@ const App = () => {
             </form>
           </Box>
         </Stack>
-        <Box>
-          Don&apos;t have an account?{" "}
-          <Button
-            as={RouterLink}
-            to="/signup"
-            variant="link"
-            colorScheme="teal"
-          >
-            Sign Up
-          </Button>
-        </Box>
+        <Flex alignItems={"center"} justifyContent={"center"}>
+          <Box>
+            Don&apos;t have an account?{" "}
+            <Button
+              as={RouterLink}
+              to="/signup"
+              variant="link"
+              colorScheme="teal"
+            >
+              Sign Up
+            </Button>
+          </Box>
+        </Flex>
       </Flex>
     </>
   );
