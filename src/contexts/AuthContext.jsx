@@ -96,6 +96,13 @@ const AuthProvider = ({ children }) => {
     return songListSnapShot.val();
   }
 
+  async function getUserSongListByID(userID) {
+    const dbRef = dRef(getDatabase());
+    const songListRef = child(dbRef, `users/${userID}/songs`);
+    const songListSnapShot = await get(songListRef);
+    return songListSnapShot.val();
+  }
+
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
@@ -123,6 +130,7 @@ const AuthProvider = ({ children }) => {
     writeUserData,
     addSongToList,
     getUserSongList,
+    getUserSongListByID,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

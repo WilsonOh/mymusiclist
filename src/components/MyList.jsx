@@ -12,15 +12,17 @@ import { useAuth } from "../contexts/AuthContext";
 import { useEffect, useState } from "react";
 import SimpleCard from "./SimpleCard";
 import { useSpotifyAPI } from "../contexts/SpotifyAPIContext";
+import { useParams } from "react-router";
 
 const MyList = () => {
   const { currentUser, getUserSongList } = useAuth();
   const { getTrackFromID } = useSpotifyAPI();
   const [tracks, setTracks] = useState([]);
+  const { id } = useParams();
   useEffect(() => {
-    async function getTracks() {
+    async function getTracks(user) {
       try {
-        const userSongList = await getUserSongList(currentUser);
+        const userSongList = await getUserSongList(user);
         const tracks = await Promise.all(
           userSongList.map(songID => getTrackFromID(songID))
         );
@@ -30,7 +32,13 @@ const MyList = () => {
         console.log(e);
       }
     }
-    getTracks();
+    if (id) {
+      getTracks({
+        uid: id,
+      });
+    } else {
+      getTracks(currentUser);
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentUser]);
   return (
@@ -86,39 +94,43 @@ const MyList = () => {
           <Box id="head"></Box>
         </Box>
       </Center>
-      <Box id="inspired" justifyContent={"center"} alignItems={"center"}>
-        <Flex justifyContent={"center"} alignItems={"center"}>
-          {" "}
-          <Image
-            src={currentUser.photoURL}
-            width="10%"
-            height="10%"
-            borderRadius="50%"
-            overflow="hidden"
-          />
-          <Heading
-            id="inspired"
-            color={useColorModeValue("gray.800", "white")}
-            as="ins"
-          >
-            {currentUser.displayName}&apos;s list
-          </Heading>
-        </Flex>
-        <Flex justifyContent={"center"}>
-          {tracks &&
-            tracks.map(track => (
-              <SimpleCard
-                showRatings={false}
-                name={track["name"]}
-                img={track["image"][0]["url"]}
-                artist={track["artists"][0]["name"]}
-                id={track["id"]}
-                key={track["id"]}
-                popularity={track["popularity"]}
-              />
-            ))}
-        </Flex>
-      </Box>
+      {currentUser ? (
+        <Box id="inspired" justifyContent={"center"} alignItems={"center"}>
+          <Flex justifyContent={"center"} alignItems={"center"}>
+            {" "}
+            <Image
+              src={currentUser.photoURL}
+              width="10%"
+              height="10%"
+              borderRadius="50%"
+              overflow="hidden"
+            />
+            <Heading
+              id="inspired"
+              // color={useColorModeValue("gray.800", "white")}
+              as="ins"
+            >
+              {currentUser.displayName}&apos;s list
+            </Heading>
+          </Flex>
+          <Flex justifyContent={"center"}>
+            {tracks &&
+              tracks.map(track => (
+                <SimpleCard
+                  showRatings={false}
+                  name={track["name"]}
+                  img={track["image"][0]["url"]}
+                  artist={track["artists"][0]["name"]}
+                  id={track["id"]}
+                  key={track["id"]}
+                  popularity={track["popularity"]}
+                />
+              ))}
+          </Flex>
+        </Box>
+      ) : (
+        <Heading>Log in to see your list</Heading>
+      )}
     </Box>
   );
 };

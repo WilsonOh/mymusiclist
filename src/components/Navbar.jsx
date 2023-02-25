@@ -374,12 +374,7 @@ const NAV_ITEMS = [
       {
         label: "My List",
         subLabel: "Rate and organise songs in your list!",
-        href: "/user/mylist",
-      },
-      {
-        label: "Freelance Projects",
-        subLabel: "An exclusive list for contract work",
-        href: "#",
+        href: "/mylist",
       },
     ],
   },
