@@ -108,7 +108,9 @@ const MyList = () => {
             // color={useColorModeValue("gray.800", "white")}
             as="ins"
           >
-            {user && user.displayName}&apos;s list
+            {id == 0 || !user
+              ? "Log in to view your list"
+              : user.displayName + "'s list"}
           </Heading>
         </Flex>
         <Flex justifyContent={"center"}>

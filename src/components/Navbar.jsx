@@ -80,7 +80,7 @@ export default function WithSubnavigation() {
         {
           label: "My List",
           subLabel: "Rate and organise songs in your list!",
-          href: `/user/${currentUser.uid}`,
+          href: currentUser ? `/user/${currentUser.uid}` : "/user/0",
         },
       ],
     },
