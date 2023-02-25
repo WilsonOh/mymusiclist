@@ -10,9 +10,17 @@ import {
 import MainCarousel from "./components/MainCarousel";
 import AsNavFor from "./components/AsNavForCarousel";
 import { useSpotifyAPI } from "./contexts/SpotifyAPIContext";
+import { useAuth } from "./contexts/AuthContext";
+import { useEffect } from "react";
 
 const App = () => {
   const { playlists } = useSpotifyAPI();
+  const { currentUser, writeUserData } = useAuth();
+
+  useEffect(() => {
+    writeUserData(currentUser);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
 
   const PLAYLIST_LIMIT_NAV = 10;
   const PLAYLIST_LIMIT_MAIN = 15;

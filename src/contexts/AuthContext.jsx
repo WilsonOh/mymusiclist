@@ -62,14 +62,17 @@ const AuthProvider = ({ children }) => {
     return updateProfile(currentUser, { photoURL: url });
   };
 
-  async function writeUserData() {
+  async function writeUserData(user) {
     const db = getDatabase();
-    set(dRef(db, `users/${currentUser.uid}`), {
-      displayName: currentUser.displayName,
-      email: currentUser.email,
-      photoURL: currentUser.photoURL,
-      songs: ["1", "2"],
-    });
+    const userRef = dRef(db, `users/${user.uid}`);
+    const userSnapshot = await get(userRef);
+    if (!userSnapshot.exists()) {
+      set(dRef(db, `users/${user.uid}`), {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      });
+    }
   }
 
   async function addSongToList(songID) {
@@ -96,11 +99,11 @@ const AuthProvider = ({ children }) => {
     return songListSnapShot.val();
   }
 
-  async function getUserSongListByID(userID) {
+  async function getUserByID(userID) {
     const dbRef = dRef(getDatabase());
-    const songListRef = child(dbRef, `users/${userID}/songs`);
-    const songListSnapShot = await get(songListRef);
-    return songListSnapShot.val();
+    const userRef = child(dbRef, `users/${userID}`);
+    const userSnapshot = await get(userRef);
+    return userSnapshot.val();
   }
 
   const login = (email, password) => {
@@ -130,7 +133,7 @@ const AuthProvider = ({ children }) => {
     writeUserData,
     addSongToList,
     getUserSongList,
-    getUserSongListByID,
+    getUserByID,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
