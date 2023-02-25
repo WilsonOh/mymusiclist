@@ -39,7 +39,14 @@ function Rating({ rating, numReviews }) {
   );
 }
 
-export default function ProductSimple({ name, img, id, artist, popularity }) {
+export default function ProductSimple({
+  name,
+  img,
+  id,
+  artist,
+  popularity,
+  showRatings = true,
+}) {
   return (
     <Link to={`/song/${id}`}>
       <Center py={12} mt={6} mx={1}>
@@ -108,12 +115,14 @@ export default function ProductSimple({ name, img, id, artist, popularity }) {
             >
               {name}
             </Heading>
-            <Stack direction={"row"} align={"center"}>
-              <Rating
-                rating={(parseInt(popularity) / 100) * 5}
-                numReviews={200}
-              />
-            </Stack>
+            {showRatings && (
+              <Stack direction={"row"} align={"center"}>
+                <Rating
+                  rating={(parseInt(popularity) / 100) * 5}
+                  numReviews={200}
+                />
+              </Stack>
+            )}
           </Stack>
         </Box>
       </Center>

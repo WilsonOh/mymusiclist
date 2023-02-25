@@ -39,7 +39,10 @@ const App = () => {
                   {playlist["name"]}
                 </Link>
               </Center>
-              <MainCarousel playlist={playlist} limit={PLAYLIST_LIMIT_MAIN} />
+              <MainCarousel
+                tracks={playlist["tracks"]["items"]}
+                limit={PLAYLIST_LIMIT_MAIN}
+              />
             </Stack>
           ))}
         </Box>

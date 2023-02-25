@@ -4,11 +4,35 @@ import {
   Flex,
   useColorModeValue,
   Heading,
+  Image,
 } from "@chakra-ui/react";
 import "./record-player.css";
 
+import { useAuth } from "../contexts/AuthContext";
+import { useEffect, useState } from "react";
+import SimpleCard from "./SimpleCard";
+import { useSpotifyAPI } from "../contexts/SpotifyAPIContext";
+
 const MyList = () => {
-  //   return <Heading>Test</Heading>
+  const { currentUser, getUserSongList } = useAuth();
+  const { getTrackFromID } = useSpotifyAPI();
+  const [tracks, setTracks] = useState([]);
+  useEffect(() => {
+    async function getTracks() {
+      try {
+        const userSongList = await getUserSongList(currentUser);
+        const tracks = await Promise.all(
+          userSongList.map(songID => getTrackFromID(songID))
+        );
+        setTracks(tracks);
+        console.log(tracks);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    getTracks();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentUser]);
   return (
     <Box>
       <Center>
@@ -65,20 +89,36 @@ const MyList = () => {
       <Box id="inspired" justifyContent={"center"} alignItems={"center"}>
         <Flex justifyContent={"center"} alignItems={"center"}>
           {" "}
+          <Image
+            src={currentUser.photoURL}
+            width="10%"
+            height="10%"
+            borderRadius="50%"
+            overflow="hidden"
+          />
           <Heading
             id="inspired"
             color={useColorModeValue("gray.800", "white")}
             as="ins"
           >
-            My List
+            {currentUser.displayName}&apos;s list
           </Heading>
         </Flex>
+        <Flex justifyContent={"center"}>
+          {tracks &&
+            tracks.map(track => (
+              <SimpleCard
+                showRatings={false}
+                name={track["name"]}
+                img={track["image"][0]["url"]}
+                artist={track["artists"][0]["name"]}
+                id={track["id"]}
+                key={track["id"]}
+                popularity={track["popularity"]}
+              />
+            ))}
+        </Flex>
       </Box>
-      <Flex justifyContent={"center"} my={"10"}>
-        <Heading color={"red"} size="3xl">
-          -----WORK IN PROGRESS-----
-        </Heading>
-      </Flex>
     </Box>
   );
 };
