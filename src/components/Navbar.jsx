@@ -58,6 +58,41 @@ export default function WithSubnavigation() {
     const id = await getTrackIDFromSearch(searchVal);
     navigate(`/song/${id}`);
   }
+  const NAV_ITEMS = [
+    {
+      label: "Browse",
+      children: [
+        {
+          label: "Explore Design Work",
+          subLabel: "Trending Design to inspire you",
+          href: "#",
+        },
+        {
+          label: "New & Noteworthy",
+          subLabel: "Up-and-coming Designers",
+          href: "#",
+        },
+      ],
+    },
+    {
+      label: "MyList",
+      children: [
+        {
+          label: "My List",
+          subLabel: "Rate and organise songs in your list!",
+          href: currentUser ? `/user/${currentUser.uid}` : "/user/0",
+        },
+      ],
+    },
+    {
+      label: "Contact",
+      href: "/about",
+    },
+    {
+      label: "About",
+      href: "/about",
+    },
+  ];
 
   return (
     <Box>
@@ -99,7 +134,7 @@ export default function WithSubnavigation() {
           </Text>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
-            <DesktopNav />
+            <DesktopNav navItems={NAV_ITEMS} />
           </Flex>
         </Flex>
 
@@ -189,20 +224,20 @@ export default function WithSubnavigation() {
       </Flex>
 
       <Collapse in={isOpen} animateOpacity>
-        <MobileNav />
+        <MobileNav navItems={NAV_ITEMS} />
       </Collapse>
     </Box>
   );
 }
 
-const DesktopNav = () => {
+const DesktopNav = ({ navItems }) => {
   const linkColor = useColorModeValue("gray.600", "gray.200");
   const linkHoverColor = useColorModeValue("gray.800", "white");
   const popoverContentBgColor = useColorModeValue("white", "gray.800");
 
   return (
     <Stack direction={"row"} spacing={2}>
-      {NAV_ITEMS.map(navItem => (
+      {navItems.map(navItem => (
         <Box key={navItem.label}>
           <Popover trigger={"hover"} placement={"bottom-start"}>
             <PopoverTrigger>
@@ -285,14 +320,14 @@ const DesktopSubNav = ({ label, href, subLabel }) => {
   );
 };
 
-const MobileNav = () => {
+const MobileNav = ({ navItems }) => {
   return (
     <Stack
       bg={useColorModeValue("white", "gray.800")}
       p={4}
       display={{ md: "none" }}
     >
-      {NAV_ITEMS.map(navItem => (
+      {navItems.map(navItem => (
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
     </Stack>
@@ -351,44 +386,3 @@ const MobileNavItem = ({ label, children, href }) => {
     </Stack>
   );
 };
-
-const NAV_ITEMS = [
-  {
-    label: "Browse",
-    children: [
-      {
-        label: "Explore Design Work",
-        subLabel: "Trending Design to inspire you",
-        href: "#",
-      },
-      {
-        label: "New & Noteworthy",
-        subLabel: "Up-and-coming Designers",
-        href: "#",
-      },
-    ],
-  },
-  {
-    label: "MyList",
-    children: [
-      {
-        label: "My List",
-        subLabel: "Rate and organise songs in your list!",
-        href: "/user/mylist",
-      },
-      {
-        label: "Freelance Projects",
-        subLabel: "An exclusive list for contract work",
-        href: "#",
-      },
-    ],
-  },
-  {
-    label: "Contact",
-    href: "/about",
-  },
-  {
-    label: "About",
-    href: "/about",
-  },
-];

@@ -10,6 +10,14 @@ import {
   updatePassword,
   updateProfile,
 } from "firebase/auth";
+import {
+  getDatabase,
+  set,
+  ref as dRef,
+  get,
+  update,
+  child,
+} from "firebase/database";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
 
 const AuthContext = createContext();
@@ -54,6 +62,50 @@ const AuthProvider = ({ children }) => {
     return updateProfile(currentUser, { photoURL: url });
   };
 
+  async function writeUserData(user) {
+    const db = getDatabase();
+    const userRef = dRef(db, `users/${user.uid}`);
+    const userSnapshot = await get(userRef);
+    if (!userSnapshot.exists()) {
+      set(dRef(db, `users/${user.uid}`), {
+        displayName: user.displayName,
+        email: user.email,
+        photoURL: user.photoURL,
+      });
+    }
+  }
+
+  async function addSongToList(songID) {
+    const db = getDatabase();
+    const songListRef = dRef(db, `users/${currentUser.uid}/songs`);
+    const userRef = dRef(db, `users/${currentUser.uid}`);
+    const songListSnapShot = await get(songListRef);
+    if (songListSnapShot.exists()) {
+      let songs = songListSnapShot.val();
+      songs.push(songID);
+      update(userRef, {
+        songs: songs,
+      });
+    } else {
+      let songs = [songID];
+      set(songListRef, songs);
+    }
+  }
+
+  async function getUserSongList(user) {
+    const dbRef = dRef(getDatabase());
+    const songListRef = child(dbRef, `users/${user.uid}/songs`);
+    const songListSnapShot = await get(songListRef);
+    return songListSnapShot.val();
+  }
+
+  async function getUserByID(userID) {
+    const dbRef = dRef(getDatabase());
+    const userRef = child(dbRef, `users/${userID}`);
+    const userSnapshot = await get(userRef);
+    return userSnapshot.val();
+  }
+
   const login = (email, password) => {
     return signInWithEmailAndPassword(auth, email, password);
   };
@@ -78,6 +130,10 @@ const AuthProvider = ({ children }) => {
     login,
     resetPassword,
     signout,
+    writeUserData,
+    addSongToList,
+    getUserSongList,
+    getUserByID,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

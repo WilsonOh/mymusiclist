@@ -55,7 +55,7 @@ const App = () => {
       await login(email, password);
       navigate("/");
     } catch (error) {
-      console.log(error.code);
+      console.log(error);
       if (error.code === "auth/wrong-password") {
         setWrongPassword.on();
       } else if (error.code === "auth/user-not-found") {

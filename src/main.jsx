@@ -24,7 +24,8 @@ ReactDOM.createRoot(document.getElementById("root")).render(
             <Suspense fallback={<Spinner />}>
               <Routes>
                 <Route path="/" element={<App />}></Route>
-                <Route path="/user/mylist" element={<MyList />}></Route>
+                <Route path="/mylist" element={<MyList />}></Route>
+                <Route path="/user/:id" element={<MyList />}></Route>
                 <Route path="/song/:id" element={<Song />}></Route>
                 <Route path="/about" element={<About />}></Route>
                 <Route path="/counter" element={<Counter />}></Route>

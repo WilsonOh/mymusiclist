@@ -94,6 +94,7 @@ export default function SpotifyAPIProvider({ children }) {
     });
     const track_json = await track.json();
     const ret = {
+      id: track_id,
       name: track_json["name"],
       url: track_json["external_urls"]["spotify"],
       popularity: track_json["popularity"],

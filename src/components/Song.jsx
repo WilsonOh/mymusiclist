@@ -20,6 +20,7 @@ import { useEffect, useState } from "react";
 import { BiMusic } from "react-icons/bi";
 import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 import { useParams } from "react-router";
+import { useAuth } from "../contexts/AuthContext";
 import { useSpotifyAPI } from "../contexts/SpotifyAPIContext";
 
 function Rating({ rating, numReviews }) {
@@ -54,10 +55,16 @@ export default function Song() {
   const [track, setTrack] = useState(null);
   const { getTrackFromID } = useSpotifyAPI();
   const { id } = useParams();
+  const { addSongToList } = useAuth();
   useEffect(() => {
     getTrackFromID(id).then(setTrack);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
+
+  async function handleAddList() {
+    addSongToList(id);
+  }
+
   return (
     <Container maxW="7xl">
       <SimpleGrid
@@ -204,6 +211,7 @@ export default function Song() {
             w={"full"}
             mt={8}
             size={"lg"}
+            onClick={handleAddList}
             py={"7"}
             // bg={useColorModeValue("gray.900", "gray.50")}
             // color={useColorModeValue("white", "gray.900")}
