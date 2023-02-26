@@ -76,13 +76,7 @@ export default function WithSubnavigation() {
     },
     {
       label: "MyList",
-      children: [
-        {
-          label: "My List",
-          subLabel: "Rate and organise songs in your list!",
-          href: currentUser ? `/user/${currentUser.uid}` : "/user/0",
-        },
-      ],
+      href: currentUser ? `/user/${currentUser.uid}` : "/user/0",
     },
     {
       label: "Contact",
@@ -181,6 +175,7 @@ export default function WithSubnavigation() {
                   </Portal>
                 </Popover>
                 <IconButton
+                  id="signout"
                   icon={<GoSignOut />}
                   onClick={async () => {
                     await signout();

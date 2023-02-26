@@ -2,6 +2,8 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { auth } from "../firebase";
 import {
   createUserWithEmailAndPassword,
+  deleteUser,
+  getAuth,
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
@@ -63,15 +65,19 @@ const AuthProvider = ({ children }) => {
   };
 
   async function writeUserData(user) {
-    const db = getDatabase();
-    const userRef = dRef(db, `users/${user.uid}`);
-    const userSnapshot = await get(userRef);
-    if (!userSnapshot.exists()) {
-      set(dRef(db, `users/${user.uid}`), {
-        displayName: user.displayName,
-        email: user.email,
-        photoURL: user.photoURL,
-      });
+    try {
+      const db = getDatabase();
+      const userRef = dRef(db, `users/${user.uid}`);
+      const userSnapshot = await get(userRef);
+      if (!userSnapshot.exists()) {
+        set(dRef(db, `users/${user.uid}`), {
+          displayName: user.displayName,
+          email: user.email,
+          photoURL: user.photoURL,
+        });
+      }
+    } catch (e) {
+      console.log(e);
     }
   }
 
@@ -114,6 +120,15 @@ const AuthProvider = ({ children }) => {
     return signOut(auth);
   };
 
+  const deleteCurrentUser = () => {
+    const auth = getAuth();
+    const user = auth.currentUser;
+
+    deleteUser(user).catch(error => {
+      console.log(error);
+    });
+  };
+
   useEffect(() => {
     return onAuthStateChanged(auth, user => {
       setCurrentUser(user);
@@ -134,6 +149,7 @@ const AuthProvider = ({ children }) => {
     addSongToList,
     getUserSongList,
     getUserByID,
+    deleteCurrentUser,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

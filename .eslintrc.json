@@ -12,7 +12,7 @@
     "react/react-in-jsx-scope": 0,
     "react/no-children-prop": 0
   },
-  "plugins": ["react", "import", "jsx-a11y", "react-hooks"],
+  "plugins": ["react", "import", "jsx-a11y", "react-hooks", "jest", "cypress"],
   "parserOptions": {
     "ecmaVersion": 2022,
     "sourceType": "module",
@@ -23,7 +23,9 @@
   "env": {
     "es6": true,
     "browser": true,
-    "node": true
+    "node": true,
+    "jest/globals": true,
+    "cypress/globals": true
   },
   "settings": {
     "react": {
