@@ -21,6 +21,11 @@ MyMusicList is a website which allows you to search and add your favourite songs
 * Prettier
 * vite
 
+# Testing
+* End-to-end testing using [cypress](https://www.cypress.io/)
+* Unit tests using [jest](https://jestjs.io/)
+> Run unit tests with ```yarn jest``` and end-to-end tests with ```yarn cypress run --spec ./cypress/e2e/*.js```
+
 # Website Screenshots
 
 Profile Update            |  Home Page
