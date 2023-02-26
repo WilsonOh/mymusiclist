@@ -14,8 +14,9 @@ import { useAuth } from "../contexts/AuthContext";
 import UpdateProfile from "./UpdateProfile";
 
 export default function CurrentUser() {
-  const { currentUser } = useAuth();
+  const { currentUser, deleteCurrentUser } = useAuth();
   const { isOpen, onOpen, onClose } = useDisclosure();
+
   return (
     <>
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
@@ -42,6 +43,14 @@ export default function CurrentUser() {
               onClick={onOpen}
             >
               Update Profile
+            </Button>
+            <Button
+              w={"full"}
+              rounded={"md"}
+              colorScheme="red"
+              onClick={deleteCurrentUser}
+            >
+              Delete Account
             </Button>
           </Stack>
         </Box>
