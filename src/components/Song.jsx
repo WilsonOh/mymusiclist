@@ -75,7 +75,7 @@ export default function Song() {
         <Flex alignItems={"center"} zIndex={"1"}>
           <Box
             rounded={"lg"}
-            mt={-12}
+            mt={0}
             pos={"relative"}
             height={"600px"}
             _after={{
@@ -86,7 +86,7 @@ export default function Song() {
               pos: "absolute",
               top: 0,
               left: 0,
-              backgroundImage: `url("https://upload.wikimedia.org/wikipedia/en/1/12/21_Savage_-_Issa_Album.png")`,
+              backgroundImage: track && track["image"][0]["url"],
               filter: "blur(15px)",
               zIndex: -1,
             }}

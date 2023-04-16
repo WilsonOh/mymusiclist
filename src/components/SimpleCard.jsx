@@ -73,9 +73,9 @@ export default function ProductSimple({
               w: "full",
               h: "full",
               pos: "absolute",
-              top: 5,
+              top: 2,
               left: 0,
-              // backgroundImage: `url(${IMAGE})`,
+              backgroundImage: `url(${img})`,
               filter: "blur(15px)",
               zIndex: -1,
             }}
